@@ -1,0 +1,2151 @@
+{
+  "restaurant": "Tana Vibe Kodor",
+  "version": "1.0.0",
+  "lastUpdated": "2026-06-20",
+  "categories": [
+    {
+      "id": "pizza",
+      "name": "Pizza",
+      "sortOrder": 1,
+      "icon": "🍕",
+      "color": "#e74c3c",
+      "description": "Alle Pizzen mit Tomatensauce und Käse"
+    },
+    {
+      "id": "angebote",
+      "name": "Angebote",
+      "sortOrder": 2,
+      "icon": "🌟",
+      "color": "#f39c12",
+      "description": "Spezielle Angebote und Combos"
+    },
+    {
+      "id": "lasagne",
+      "name": "Lasagne",
+      "sortOrder": 3,
+      "icon": "📦",
+      "color": "#e67e22",
+      "description": "Hausgemachte Lasagne"
+    },
+    {
+      "id": "pasta",
+      "name": "Nudeln / Pasta",
+      "sortOrder": 4,
+      "icon": "🍝",
+      "color": "#2ecc71",
+      "description": "Pasta Gerichte mit Nudelsorte nach Wahl"
+    },
+    {
+      "id": "gnocchi",
+      "name": "Gnocchi",
+      "sortOrder": 5,
+      "icon": "🥟",
+      "color": "#27ae60",
+      "description": "Italienische Gnocchi Gerichte"
+    },
+    {
+      "id": "schnitzel",
+      "name": "Schnitzel",
+      "sortOrder": 6,
+      "icon": "🍖",
+      "color": "#c0392b",
+      "description": "Frisch zubereitete Schnitzel"
+    },
+    {
+      "id": "mexikanisch",
+      "name": "Mexikanische Gerichte",
+      "sortOrder": 7,
+      "icon": "🌮",
+      "color": "#f1c40f",
+      "description": "Mexikanische Spezialitäten"
+    },
+    {
+      "id": "enchiladas",
+      "name": "Enchiladas",
+      "sortOrder": 8,
+      "icon": "🫔",
+      "color": "#e67e22",
+      "description": "Weiche Weizentortillas überbacken mit Käse"
+    },
+    {
+      "id": "gegrilltes",
+      "name": "Vom Grill",
+      "sortOrder": 9,
+      "icon": "🍗",
+      "color": "#d35400",
+      "description": "Gegrillte Spezialitäten"
+    },
+    {
+      "id": "pakistanisch",
+      "name": "Pakistanische Gerichte",
+      "sortOrder": 10,
+      "icon": "🍛",
+      "color": "#8e44ad",
+      "description": "Authentische pakistanische Küche"
+    },
+    {
+      "id": "salate",
+      "name": "Salate",
+      "sortOrder": 11,
+      "icon": "🥗",
+      "color": "#27ae60",
+      "description": "Frische Salate in zwei Größen"
+    },
+    {
+      "id": "burger",
+      "name": "Burger",
+      "sortOrder": 12,
+      "icon": "🍔",
+      "color": "#e67e22",
+      "description": "Burger mit Pommes & Salat"
+    },
+    {
+      "id": "fingerfood",
+      "name": "Finger Food",
+      "sortOrder": 13,
+      "icon": "🍟",
+      "color": "#f39c12",
+      "description": "Snacks und Beilagen"
+    },
+    {
+      "id": "extras",
+      "name": "Extras",
+      "sortOrder": 14,
+      "icon": "🍰",
+      "color": "#e91e63",
+      "description": "Desserts und Nachspeisen"
+    },
+    {
+      "id": "getraenke",
+      "name": "Getränke",
+      "sortOrder": 15,
+      "icon": "🥤",
+      "color": "#3498db",
+      "description": "Kalte Getränke"
+    }
+  ],
+  "products": [
+    {
+      "id": "prod-001",
+      "productNumber": "1",
+      "name": "Pizza Margherita",
+      "category": "pizza",
+      "price": 6.00,
+      "description": "mit Tomatensauce und Käse",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":6.00},
+        {"id":"gross","name":"Groß","price":8.00},
+        {"id":"xl","name":"XL","price":10.50},
+        {"id":"familie","name":"Familie","price":13.00},
+        {"id":"party","name":"Party","price":16.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [
+        {
+          "type": "extrazutaten",
+          "name": "Extra Zutaten",
+          "required": false,
+          "multiple": true,
+          "maxChoices": null,
+          "options": [
+            {"id":"ananas","name":"Ananas","price":1.00},
+            {"id":"artischocken","name":"Artischocken","price":1.00},
+            {"id":"bohnen","name":"Bohnen","price":1.00},
+            {"id":"broccoli","name":"Broccoli","price":1.00},
+            {"id":"hackfleisch","name":"Hackfleisch","price":1.00},
+            {"id":"haehnchen","name":"Hähnchen","price":1.00},
+            {"id":"knoblauch","name":"Knoblauch","price":0.50},
+            {"id":"krabben","name":"Krabben","price":1.50},
+            {"id":"kaese","name":"Käse","price":1.00},
+            {"id":"mais","name":"Mais","price":1.00},
+            {"id":"meeresfruechte","name":"Meeresfrüchte","price":2.00},
+            {"id":"mozzarella","name":"Mozzarella","price":1.00},
+            {"id":"muscheln","name":"Muscheln","price":1.50},
+            {"id":"oliven","name":"Oliven","price":1.00},
+            {"id":"paprika","name":"Paprika","price":1.00},
+            {"id":"peperoni","name":"Peperoni","price":1.00},
+            {"id":"peperoniwurst","name":"Peperoniwurst","price":1.00},
+            {"id":"pilze","name":"Pilze","price":1.00},
+            {"id":"rinderschinken","name":"Rinderschinken","price":1.00},
+            {"id":"rindfleisch","name":"Rindfleisch","price":1.50},
+            {"id":"salami","name":"Salami","price":1.00},
+            {"id":"sardellen","name":"Sardellen","price":1.00},
+            {"id":"schinken","name":"Schinken","price":1.00},
+            {"id":"spinat","name":"Spinat","price":1.00},
+            {"id":"sucuk","name":"Sucuk","price":1.00},
+            {"id":"thunfisch","name":"Thunfisch","price":1.00},
+            {"id":"tintenfisch","name":"Tintenfisch","price":1.50},
+            {"id":"tomaten","name":"Tomaten","price":1.00},
+            {"id":"tomatensauce","name":"Tomatensauce","price":0.50},
+            {"id":"weichkaese","name":"Weichkäse","price":1.00},
+            {"id":"zwiebeln","name":"Zwiebeln","price":0.50}
+          ]
+        },
+        {
+          "type": "special",
+          "name": "Auf Wunsch",
+          "required": false,
+          "multiple": false,
+          "options": [
+            {"id":"kaeserand","name":"Käserand","price":2.50}
+          ]
+        }
+      ],
+      "searchTerms": ["margherita","margarita","1"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-002",
+      "productNumber": "2",
+      "name": "Pizza Salami",
+      "category": "pizza",
+      "price": 6.00,
+      "description": "mit Salami",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":6.00},
+        {"id":"gross","name":"Groß","price":8.00},
+        {"id":"xl","name":"XL","price":10.50},
+        {"id":"familie","name":"Familie","price":13.00},
+        {"id":"party","name":"Party","price":16.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["salami","2"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-003",
+      "productNumber": "3",
+      "name": "Pizza Schinken",
+      "category": "pizza",
+      "price": 6.00,
+      "description": "mit Schinken",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":6.00},
+        {"id":"gross","name":"Groß","price":8.00},
+        {"id":"xl","name":"XL","price":10.50},
+        {"id":"familie","name":"Familie","price":13.00},
+        {"id":"party","name":"Party","price":16.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["schinken","3"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-004",
+      "productNumber": "4",
+      "name": "Pizza Peperoniwurst",
+      "category": "pizza",
+      "price": 6.00,
+      "description": "mit Peperoniwurst",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":6.00},
+        {"id":"gross","name":"Groß","price":8.00},
+        {"id":"xl","name":"XL","price":10.50},
+        {"id":"familie","name":"Familie","price":13.00},
+        {"id":"party","name":"Party","price":16.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["peperoniwurst","peperoni","4"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-005",
+      "productNumber": "5",
+      "name": "Pizza Sucuk",
+      "category": "pizza",
+      "price": 6.50,
+      "description": "mit Sucuk",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":6.50},
+        {"id":"gross","name":"Groß","price":8.50},
+        {"id":"xl","name":"XL","price":11.00},
+        {"id":"familie","name":"Familie","price":13.50},
+        {"id":"party","name":"Party","price":16.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["sucuk","5"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-006",
+      "productNumber": "6",
+      "name": "Pizza Hawaii",
+      "category": "pizza",
+      "price": 6.50,
+      "description": "mit Schinken & Ananas",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":6.50},
+        {"id":"gross","name":"Groß","price":8.50},
+        {"id":"xl","name":"XL","price":11.00},
+        {"id":"familie","name":"Familie","price":13.50},
+        {"id":"party","name":"Party","price":16.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["hawaii","hawai","ananas","6"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-007",
+      "productNumber": "7",
+      "name": "Pizza Milano",
+      "category": "pizza",
+      "price": 6.50,
+      "description": "mit Rinderschinken, Salami & Pilze",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":6.50},
+        {"id":"gross","name":"Groß","price":8.50},
+        {"id":"xl","name":"XL","price":11.00},
+        {"id":"familie","name":"Familie","price":13.50},
+        {"id":"party","name":"Party","price":16.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["milano","7"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-008",
+      "productNumber": "8",
+      "name": "Pizza Tonno",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Thunfisch, Zwiebeln & Oliven",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["tonno","thunfisch","8"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-009",
+      "productNumber": "9",
+      "name": "Pizza Funghi",
+      "category": "pizza",
+      "price": 6.00,
+      "description": "mit Pilzen",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":6.00},
+        {"id":"gross","name":"Groß","price":8.00},
+        {"id":"xl","name":"XL","price":10.50},
+        {"id":"familie","name":"Familie","price":13.00},
+        {"id":"party","name":"Party","price":16.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["funghi","pilze","9"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-010",
+      "productNumber": "10",
+      "name": "Pizza Polo",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Salami, Schinken, Pilze, Zwiebel & Hackfleisch",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["polo","10"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-011",
+      "productNumber": "11",
+      "name": "Pizza Marinara (Surini)",
+      "category": "pizza",
+      "price": 7.50,
+      "description": "mit Thunfisch & Meeresfrüchten",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.50},
+        {"id":"gross","name":"Groß","price":9.50},
+        {"id":"xl","name":"XL","price":12.00},
+        {"id":"familie","name":"Familie","price":14.50},
+        {"id":"party","name":"Party","price":17.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["marinara","surini","meeresfrüchte","11"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-012",
+      "productNumber": "12",
+      "name": "Pizza Krabby (Surini)",
+      "category": "pizza",
+      "price": 7.50,
+      "description": "mit Thunfisch, Krabben, Tintenfisch und Muscheln",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.50},
+        {"id":"gross","name":"Groß","price":9.50},
+        {"id":"xl","name":"XL","price":12.00},
+        {"id":"familie","name":"Familie","price":14.50},
+        {"id":"party","name":"Party","price":17.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["krabby","surini","krabben","12"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-014",
+      "productNumber": "14",
+      "name": "Pizza Alla Chef",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Salami, Knoblauch, Spinat, Sardellen, Peperoni & Zwiebeln",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["alla chef","chef","14"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-015",
+      "productNumber": "15",
+      "name": "Pizza Bombay",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Hähnchen, Paprika & Ananas",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["bombay","haehnchen","hähnchen","15"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-016",
+      "productNumber": "16",
+      "name": "Pizza Mario",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Salami, Pilze & Hackfleisch",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["mario","16"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-017",
+      "productNumber": "17",
+      "name": "Pizza Quattro Formaggi",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit vier verschiedenen Käsesorten",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["quattro","formaggi","kaese","käse","17"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-018",
+      "productNumber": "18",
+      "name": "Pizza Cavellino",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Salami, Schinken, Hackfleisch & Zwiebel",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["cavellino","18"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-020",
+      "productNumber": "20",
+      "name": "Pizza Capricosa",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Peperoniwurst, Schinken, Pilze, Paprika & Artischocken",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["capricosa","20"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-021",
+      "productNumber": "21",
+      "name": "Pizza Solamari",
+      "category": "pizza",
+      "price": 6.50,
+      "description": "mit Salami, Schinken, Zwiebeln & Paprika",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":6.50},
+        {"id":"gross","name":"Groß","price":8.50},
+        {"id":"xl","name":"XL","price":11.00},
+        {"id":"familie","name":"Familie","price":13.50},
+        {"id":"party","name":"Party","price":16.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["solamari","21"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-022",
+      "productNumber": "22",
+      "name": "Pizza Vegetarisch",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Pilzen, Paprika, Zwiebeln, Broccoli, Mais & Peperoni",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["vegetarisch","vegetarisch","22"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-023",
+      "productNumber": "23",
+      "name": "Pizza Mafia",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Salami, Thunfisch, Sardellen, Zwiebeln (scharf)",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["mafia","scharf","23"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-024",
+      "productNumber": "24",
+      "name": "Pizza Napoli",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Spinat, Broccoli, Knoblauch, Zwiebeln, Mozzarella & Peperoni",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["napoli","24"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-025",
+      "productNumber": "25",
+      "name": "Pizza Döner",
+      "category": "pizza",
+      "price": 7.50,
+      "description": "mit Rindfleisch, Tomaten & Zwiebeln",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.50},
+        {"id":"gross","name":"Groß","price":9.50},
+        {"id":"xl","name":"XL","price":12.00},
+        {"id":"familie","name":"Familie","price":14.50},
+        {"id":"party","name":"Party","price":17.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["doener","döner","rindfleisch","25"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-026",
+      "productNumber": "26",
+      "name": "Pizza Bolognese",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Hackfleisch, Zwiebeln, Peperoni, Knoblauch (scharf)",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["bolognese","scharf","26"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-027",
+      "productNumber": "27",
+      "name": "Pizza Calzone",
+      "category": "pizza",
+      "price": 7.50,
+      "description": "mit Schinken, Salami, Peperoniwurst, Pilze, Hackfleisch & Peperoni",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.50},
+        {"id":"gross","name":"Groß","price":9.50},
+        {"id":"xl","name":"XL","price":12.00},
+        {"id":"familie","name":"Familie","price":14.50},
+        {"id":"party","name":"Party","price":17.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["calzone","27"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-028",
+      "productNumber": "28",
+      "name": "Pizza Schad",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Salami, Schinken, Peperoniwurst, Paprika, Broccoli (scharf)",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["schad","scharf","28"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-029",
+      "productNumber": "29",
+      "name": "Pizza Mexico",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Hackfleisch, Bohnen, Peperoni, Mais (scharf)",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["mexico","scharf","29"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-030",
+      "productNumber": "30",
+      "name": "Pizza Zet",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Sucuk, Zwiebeln, Weichkäse, Peperoni und Knoblauch",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["zet","30"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-031",
+      "productNumber": "31",
+      "name": "Pizza Spezial",
+      "category": "pizza",
+      "price": 7.50,
+      "description": "mit Salami, Schinken, Pilze, Paprika, Peperoni & Zwiebeln",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.50},
+        {"id":"gross","name":"Groß","price":9.50},
+        {"id":"xl","name":"XL","price":12.00},
+        {"id":"familie","name":"Familie","price":14.50},
+        {"id":"party","name":"Party","price":17.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["spezial","31"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-032",
+      "productNumber": "32",
+      "name": "Pizza Istanbul",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Sucuk, Zwiebeln, Pilze, Oliven & frische Tomaten",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["istanbul","32"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-033",
+      "productNumber": "33",
+      "name": "Pizza Helena",
+      "category": "pizza",
+      "price": 7.00,
+      "description": "mit Hackfleisch, Weichkäse, Knoblauch, Zwiebeln & Peperoni",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.00},
+        {"id":"xl","name":"XL","price":11.50},
+        {"id":"familie","name":"Familie","price":14.00},
+        {"id":"party","name":"Party","price":17.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["helena","33"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-034",
+      "productNumber": "34",
+      "name": "Lasagne mit Käse",
+      "category": "lasagne",
+      "price": 8.00,
+      "description": "mit Hackfleisch",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["lasagne","kaese","käse","34"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-035",
+      "productNumber": "35",
+      "name": "Lasagne mit Schad",
+      "category": "lasagne",
+      "price": 8.50,
+      "description": "mit Käse, Paprika, Peperoni, Zwiebeln und Hackfleisch",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["lasagne","schad","35"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-036",
+      "productNumber": "36",
+      "name": "Napoli",
+      "category": "pasta",
+      "price": 7.00,
+      "description": "Nudeln mit Tomatensauce",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [
+        {
+          "type": "pasta_choice",
+          "name": "Nudelsorte nach Wahl",
+          "required": true,
+          "multiple": false,
+          "options": [
+            {"id":"rigatoni","name":"Rigatoni","price":0},
+            {"id":"spaghetti","name":"Spaghetti","price":0},
+            {"id":"tortellini","name":"Tortellini","price":0}
+          ]
+        }
+      ],
+      "searchTerms": ["napoli","nudeln","36"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-037",
+      "productNumber": "37",
+      "name": "Bolognese",
+      "category": "pasta",
+      "price": 8.00,
+      "description": "Nudeln mit Hackfleischsauce",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [
+        {
+          "type": "pasta_choice",
+          "name": "Nudelsorte nach Wahl",
+          "required": true,
+          "multiple": false,
+          "options": [
+            {"id":"rigatoni","name":"Rigatoni","price":0},
+            {"id":"spaghetti","name":"Spaghetti","price":0},
+            {"id":"tortellini","name":"Tortellini","price":0}
+          ]
+        }
+      ],
+      "searchTerms": ["bolognese","37"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-038",
+      "productNumber": "38",
+      "name": "Frutti di Mare Surini",
+      "category": "pasta",
+      "price": 9.00,
+      "description": "Nudeln mit Meeresfrüchten",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [
+        {
+          "type": "pasta_choice",
+          "name": "Nudelsorte nach Wahl",
+          "required": true,
+          "multiple": false,
+          "options": [
+            {"id":"rigatoni","name":"Rigatoni","price":0},
+            {"id":"spaghetti","name":"Spaghetti","price":0},
+            {"id":"tortellini","name":"Tortellini","price":0}
+          ]
+        }
+      ],
+      "searchTerms": ["frutti","mare","surini","meeresfrüchte","38"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-039",
+      "productNumber": "39",
+      "name": "Alla Panna",
+      "category": "pasta",
+      "price": 8.00,
+      "description": "mit Schinken & Sahne",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [
+        {
+          "type": "pasta_choice",
+          "name": "Nudelsorte nach Wahl",
+          "required": true,
+          "multiple": false,
+          "options": [
+            {"id":"rigatoni","name":"Rigatoni","price":0},
+            {"id":"spaghetti","name":"Spaghetti","price":0},
+            {"id":"tortellini","name":"Tortellini","price":0}
+          ]
+        }
+      ],
+      "searchTerms": ["alla panna","panna","sahne","39"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-040",
+      "productNumber": "40",
+      "name": "Carbonara",
+      "category": "pasta",
+      "price": 8.00,
+      "description": "mit Schinken, Ei & Sahne",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [
+        {
+          "type": "pasta_choice",
+          "name": "Nudelsorte nach Wahl",
+          "required": true,
+          "multiple": false,
+          "options": [
+            {"id":"rigatoni","name":"Rigatoni","price":0},
+            {"id":"spaghetti","name":"Spaghetti","price":0},
+            {"id":"tortellini","name":"Tortellini","price":0}
+          ]
+        }
+      ],
+      "searchTerms": ["carbonara","ei","40"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-041",
+      "productNumber": "41",
+      "name": "Quattro Formaggi",
+      "category": "pasta",
+      "price": 8.00,
+      "description": "Nudeln mit vier Käsesorten",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [
+        {
+          "type": "pasta_choice",
+          "name": "Nudelsorte nach Wahl",
+          "required": true,
+          "multiple": false,
+          "options": [
+            {"id":"rigatoni","name":"Rigatoni","price":0},
+            {"id":"spaghetti","name":"Spaghetti","price":0},
+            {"id":"tortellini","name":"Tortellini","price":0}
+          ]
+        }
+      ],
+      "searchTerms": ["quattro","formaggi","kaese","käse","41"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-042",
+      "productNumber": "42",
+      "name": "Mix",
+      "category": "pasta",
+      "price": 8.00,
+      "description": "mit Schinken, Sahne, Erbsen und Pilze",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [
+        {
+          "type": "pasta_choice",
+          "name": "Nudelsorte nach Wahl",
+          "required": true,
+          "multiple": false,
+          "options": [
+            {"id":"rigatoni","name":"Rigatoni","price":0},
+            {"id":"spaghetti","name":"Spaghetti","price":0},
+            {"id":"tortellini","name":"Tortellini","price":0}
+          ]
+        }
+      ],
+      "searchTerms": ["mix","erbsen","42"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-043",
+      "productNumber": "43",
+      "name": "Grüne Pesto",
+      "category": "pasta",
+      "price": 7.50,
+      "description": "Nudeln mit grünem Pesto",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [
+        {
+          "type": "pasta_choice",
+          "name": "Nudelsorte nach Wahl",
+          "required": true,
+          "multiple": false,
+          "options": [
+            {"id":"rigatoni","name":"Rigatoni","price":0},
+            {"id":"spaghetti","name":"Spaghetti","price":0},
+            {"id":"tortellini","name":"Tortellini","price":0}
+          ]
+        }
+      ],
+      "searchTerms": ["gruene","grüne","pesto","43"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-044",
+      "productNumber": "44",
+      "name": "Broccoli",
+      "category": "pasta",
+      "price": 7.00,
+      "description": "Nudeln mit Broccoli",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [
+        {
+          "type": "pasta_choice",
+          "name": "Nudelsorte nach Wahl",
+          "required": true,
+          "multiple": false,
+          "options": [
+            {"id":"rigatoni","name":"Rigatoni","price":0},
+            {"id":"spaghetti","name":"Spaghetti","price":0},
+            {"id":"tortellini","name":"Tortellini","price":0}
+          ]
+        }
+      ],
+      "searchTerms": ["broccoli","44"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-045",
+      "productNumber": "45",
+      "name": "Gebratene Hähnchen",
+      "category": "pasta",
+      "price": 8.50,
+      "description": "Nudeln mit gebratenem Hähnchen",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [
+        {
+          "type": "pasta_choice",
+          "name": "Nudelsorte nach Wahl",
+          "required": true,
+          "multiple": false,
+          "options": [
+            {"id":"rigatoni","name":"Rigatoni","price":0},
+            {"id":"spaghetti","name":"Spaghetti","price":0},
+            {"id":"tortellini","name":"Tortellini","price":0}
+          ]
+        }
+      ],
+      "searchTerms": ["gebratene","haehnchen","hähnchen","45"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-046",
+      "productNumber": "46",
+      "name": "Gnocchi Napoli",
+      "category": "gnocchi",
+      "price": 7.50,
+      "description": "Gnocchi mit Tomatensauce",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["gnocchi","napoli","46"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-047",
+      "productNumber": "47",
+      "name": "Gnocchi Bolognese",
+      "category": "gnocchi",
+      "price": 8.50,
+      "description": "Gnocchi mit Hackfleischsauce",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["gnocchi","bolognese","47"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-048",
+      "productNumber": "48",
+      "name": "Gnocchi Schinken Sahne",
+      "category": "gnocchi",
+      "price": 8.50,
+      "description": "Gnocchi mit Schinken in Sahnesauce",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["gnocchi","schinken","sahne","48"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-049",
+      "productNumber": "49",
+      "name": "Gnocchi Carbonara",
+      "category": "gnocchi",
+      "price": 8.50,
+      "description": "mit Schinken, Ei und Sahne",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["gnocchi","carbonara","ei","49"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-050",
+      "productNumber": "50",
+      "name": "Gnocchi Quattro Formaggi",
+      "category": "gnocchi",
+      "price": 8.50,
+      "description": "Gnocchi mit vier Käsesorten",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["gnocchi","quattro","formaggi","kaese","käse","50"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-051",
+      "productNumber": "51",
+      "name": "Gnocchi Hackfleisch",
+      "category": "gnocchi",
+      "price": 9.00,
+      "description": "mit Spinat und Lauch",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["gnocchi","hackfleisch","spinat","lauch","51"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-053",
+      "productNumber": "53",
+      "name": "Bolognese Schnitzel",
+      "category": "schnitzel",
+      "price": 12.00,
+      "description": "Schnitzel mit Bolognese-Sauce überbacken",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["bolognese","schnitzel","53"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-054",
+      "productNumber": "54",
+      "name": "Rahm Schnitzel",
+      "category": "schnitzel",
+      "price": 12.00,
+      "description": "Schnitzel mit Rahmsauce",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["rahm","schnitzel","54"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-055",
+      "productNumber": "55",
+      "name": "Jäger Schnitzel",
+      "category": "schnitzel",
+      "price": 12.00,
+      "description": "Schnitzel mit Jägersauce und Pilzen",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["jaeger","jäger","schnitzel","55"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-056",
+      "productNumber": "56",
+      "name": "Wiener Schnitzel",
+      "category": "schnitzel",
+      "price": 10.00,
+      "description": "Klassisches Wiener Schnitzel",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["wiener","schnitzel","56"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-057",
+      "productNumber": "57",
+      "name": "Cordon Bleu",
+      "category": "schnitzel",
+      "price": 12.50,
+      "description": "Schnitzel gefüllt mit Schinken und Käse",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["cordon","bleu","57"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-058",
+      "productNumber": "58",
+      "name": "Gorgonzola Schnitzel",
+      "category": "schnitzel",
+      "price": 12.50,
+      "description": "Schnitzel mit Gorgonzola-Sauce",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["gorgonzola","schnitzel","58"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-058a",
+      "productNumber": "58A",
+      "name": "Paprika Schnitzel",
+      "category": "schnitzel",
+      "price": 12.00,
+      "description": "Schnitzel mit Paprika-Sauce",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["paprika","schnitzel","58a","58A"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-059",
+      "productNumber": "59",
+      "name": "3 Tacos",
+      "category": "mexikanisch",
+      "price": 10.00,
+      "description": "mit Hackfleisch, Mais, Tomaten, Zwiebeln, Peperoni, Bohnen & Beilagensalat",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["tacos","59"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-060",
+      "productNumber": "60",
+      "name": "Mexikanische Pfanne",
+      "category": "mexikanisch",
+      "price": 12.00,
+      "description": "mit Hackfleisch, Mais, Tomaten, Zwiebeln, Paprika, Bohnen, scharfe Tomatensauce, überbacken mit Käse & hausgemachtem Brot",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["mexikanische","pfanne","60"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-061",
+      "productNumber": "61",
+      "name": "Quesadilla de Pollo Aroz",
+      "category": "mexikanisch",
+      "price": 11.00,
+      "description": "mit Hähnchenfleisch, Tomaten, Knoblauch, Zwiebeln, Pilze, Paprika, scharfe Tomatensauce, überbacken mit Käse & Beilagensalat",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["quesadilla","pollo","aroz","61"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-062",
+      "productNumber": "62",
+      "name": "Chicken Madras",
+      "category": "pakistanisch",
+      "price": 12.00,
+      "description": "mit Hähnchenfleisch, frischen Tomaten, Paprika & mit feinen indischen Gewürzen zubereitet (scharf)",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["chicken","madras","indisch","62"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-063",
+      "productNumber": "63",
+      "name": "Butter Chicken",
+      "category": "pakistanisch",
+      "price": 12.00,
+      "description": "mit Hähnchenfleisch & frischen Tomaten in einer herzhaften Butter-Sahne-Soße (scharf)",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["butter","chicken","63"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-064",
+      "productNumber": "64",
+      "name": "Chicken Biryani",
+      "category": "pakistanisch",
+      "price": 12.00,
+      "description": "eine Mischung aus Basmatireis, Hähnchenfleisch & mit feinen Indischen Gewürzen zubereitet (scharf)",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["chicken","biryani","reis","64"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-065",
+      "productNumber": "65",
+      "name": "Chicken Sindi",
+      "category": "pakistanisch",
+      "price": 12.00,
+      "description": "mit Paprika, Erbsen, Pilze, Peperoni, Ananas & mit feinen Indischen Gewürzen zubereitet (scharf)",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["chicken","sindi","65"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-066",
+      "productNumber": "66",
+      "name": "Jambalaaya",
+      "category": "pakistanisch",
+      "price": 12.00,
+      "description": "eine Mischung aus Hähnchenfleisch, frischem Gemüse & mit feinen Indischen Gewürzen (scharf)",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["jambalaaya","jambalaya","66"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-067",
+      "productNumber": "67",
+      "name": "Tomatensalat",
+      "category": "salate",
+      "price": 5.00,
+      "description": "mit Dressing",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":5.00},
+        {"id":"gross","name":"Groß","price":7.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["tomaten","salat","67"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-068",
+      "productNumber": "68",
+      "name": "Salat Hawaii",
+      "category": "salate",
+      "price": 7.00,
+      "description": "grüner Salat mit Tomaten, Gurken, Schinken, Ananas & Joghurtsoße",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["hawaii","hawai","salat","68"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-069",
+      "productNumber": "69",
+      "name": "Salat Mista",
+      "category": "salate",
+      "price": 6.50,
+      "description": "grüner Salat mit Tomaten, Gurken, Paprika, Karotten, Peperoni & Zwiebeln",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":6.50},
+        {"id":"gross","name":"Groß","price":9.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["mista","salat","69"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-070",
+      "productNumber": "70",
+      "name": "Salat Mexico",
+      "category": "salate",
+      "price": 7.00,
+      "description": "grüner Salat mit Tomaten, Gurken, Mais, Pilzen, Bohnen, Oliven & Zwiebeln",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["mexico","salat","70"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-071",
+      "productNumber": "71",
+      "name": "Salat Tonno",
+      "category": "salate",
+      "price": 7.50,
+      "description": "grüner Salat mit Tomaten, Gurken, Thunfisch, Bohnen, Peperoni, Oliven & Zwiebeln",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.50},
+        {"id":"gross","name":"Groß","price":10.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["tonno","thunfisch","salat","71"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-072",
+      "productNumber": "72",
+      "name": "Salat Caprese",
+      "category": "salate",
+      "price": 7.00,
+      "description": "grüner Salat mit Tomaten, Mozzarella, Zwiebeln & Oliven",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["caprese","salat","72"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-073",
+      "productNumber": "73",
+      "name": "Salat Polo",
+      "category": "salate",
+      "price": 8.50,
+      "description": "grüner Salat mit Tomaten, Gurken, Mais, Paprika, Rinderschinken, Käse & Chicken Wings",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":8.50},
+        {"id":"gross","name":"Groß","price":11.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["polo","salat","chicken","73"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-074",
+      "productNumber": "74",
+      "name": "Griechischer Salat",
+      "category": "salate",
+      "price": 7.00,
+      "description": "grüner Salat mit Tomaten, Gurken, Paprika, Weichkäse, Bohnen, Zwiebeln & Oliven",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":7.00},
+        {"id":"gross","name":"Groß","price":9.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["griechischer","griechisch","salat","74"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-075",
+      "productNumber": "75",
+      "name": "Salat Orient",
+      "category": "salate",
+      "price": 8.00,
+      "description": "grüner Salat mit Tomaten, Gurken, Mais, Ananas, Karotten und paniertem Hähnchenbrustfilet",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":8.00},
+        {"id":"gross","name":"Groß","price":10.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["orient","salat","haehnchen","hähnchen","75"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-076",
+      "productNumber": "76",
+      "name": "Salat Bella Italia",
+      "category": "salate",
+      "price": 8.50,
+      "description": "grüner Salat mit Tomaten, Gurken, Rinderschinken, Ei, Käse, Thunfisch, Peperoni, Oliven & Paprika",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":8.50},
+        {"id":"gross","name":"Groß","price":11.00}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["bella","italia","salat","76"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-077",
+      "productNumber": "77",
+      "name": "Salat Meeresfrüchte",
+      "category": "salate",
+      "price": 8.00,
+      "description": "grüner Salat mit Tomaten, Gurken & Meeresfrüchten (mit Surimi)",
+      "sizes": [
+        {"id":"klein","name":"Klein","price":8.00},
+        {"id":"gross","name":"Groß","price":10.50}
+      ],
+      "defaultSize": "gross",
+      "modifiers": [],
+      "searchTerms": ["meeresfruechte","meeresfrüchte","surimi","salat","77"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-078",
+      "productNumber": "78",
+      "name": "Cheeseburger Menü",
+      "category": "burger",
+      "price": 9.00,
+      "description": "mit Pommes & Salat",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["cheeseburger","menue","menü","pommes","78"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-079",
+      "productNumber": "79",
+      "name": "Chicken Cheeseburger Menü",
+      "category": "burger",
+      "price": 9.50,
+      "description": "mit Pommes & Salat",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["chicken","cheeseburger","menue","menü","79"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-080",
+      "productNumber": "80",
+      "name": "Cheeseburger",
+      "category": "burger",
+      "price": 6.00,
+      "description": "Klassischer Cheeseburger",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["cheeseburger","80"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-081",
+      "productNumber": "81",
+      "name": "Chicken Cheeseburger",
+      "category": "burger",
+      "price": 6.50,
+      "description": "Cheeseburger mit Hähnchen",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["chicken","cheeseburger","81"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-081a",
+      "productNumber": "81A",
+      "name": "Double Cheeseburger",
+      "category": "burger",
+      "price": 8.00,
+      "description": "Doppelter Cheeseburger",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["double","cheeseburger","81a","81A"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-081b",
+      "productNumber": "81B",
+      "name": "Crispy Chicken",
+      "category": "burger",
+      "price": 6.50,
+      "description": "Knuspriges Hähnchenburger",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["crispy","chicken","81b","81B"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-082",
+      "productNumber": "82",
+      "name": "Chicken Wings (8 Stück)",
+      "category": "fingerfood",
+      "price": 7.00,
+      "description": "8 knusprige Chicken Wings",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["chicken","wings","8","82"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-083",
+      "productNumber": "83",
+      "name": "Chicken Wings (12 Stück)",
+      "category": "fingerfood",
+      "price": 9.50,
+      "description": "12 Stück mit Süß-Sauer Sauce",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["chicken","wings","12","83"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-084",
+      "productNumber": "84",
+      "name": "Onion Rings (10 Stück)",
+      "category": "fingerfood",
+      "price": 5.00,
+      "description": "mit Remoulade",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["onion","rings","zwiebeln","84"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-085",
+      "productNumber": "85",
+      "name": "Calamari (10 Stück)",
+      "category": "fingerfood",
+      "price": 8.00,
+      "description": "mit Pommes, Salat & Remoulade",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["calamari","tintenfisch","85"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-086",
+      "productNumber": "86",
+      "name": "Chicken Nuggets (10 Stück)",
+      "category": "fingerfood",
+      "price": 6.50,
+      "description": "mit Pommes",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["chicken","nuggets","10","86"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-086a",
+      "productNumber": "86A",
+      "name": "Chili Cheese Nuggets (8 Stück)",
+      "category": "fingerfood",
+      "price": 6.50,
+      "description": "8 Stück Chili Cheese Nuggets",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["chili","cheese","nuggets","chill","86a","86A"],
+      "isSpicy": true
+    },
+    {
+      "id": "prod-087",
+      "productNumber": "87",
+      "name": "Pommes",
+      "category": "fingerfood",
+      "price": 3.50,
+      "description": "Portion Pommes Frites",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["pommes","frites","87"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-088",
+      "productNumber": "88",
+      "name": "Kroketten",
+      "category": "fingerfood",
+      "price": 4.00,
+      "description": "Portion Kroketten",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["kroketten","88"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-089",
+      "productNumber": "89",
+      "name": "Western Potatoes",
+      "category": "fingerfood",
+      "price": 4.50,
+      "description": "Gewürzte Kartoffelecken",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["western","potatoes","kartoffeln","89"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-090",
+      "productNumber": "90",
+      "name": "Tiramisu",
+      "category": "extras",
+      "price": 5.00,
+      "description": "Klassisches italienisches Tiramisu",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["tiramisu","dessert","90"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-091",
+      "productNumber": "91",
+      "name": "Apfelstrudel",
+      "category": "extras",
+      "price": 5.00,
+      "description": "Warmer Apfelstrudel",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["apfelstrudel","apfel","dessert","91"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-092",
+      "productNumber": "92",
+      "name": "Pizzabrot",
+      "category": "extras",
+      "price": 3.50,
+      "description": "Frisch gebackenes Pizzabrot",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["pizzabrot","brot","92"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-093",
+      "productNumber": "93",
+      "name": "Ben & Jerry's Cookie Dough (100ml)",
+      "category": "extras",
+      "price": 4.50,
+      "description": "Ben & Jerry's Cookie Dough Eis",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["ben","jerry","cookie","dough","eis","93"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-094",
+      "productNumber": "94",
+      "name": "Coca Cola 1L",
+      "category": "getraenke",
+      "price": 3.00,
+      "description": "Coca Cola 1 Liter",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["coca","cola","coke","94"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-094a",
+      "productNumber": "94A",
+      "name": "Fanta 1L",
+      "category": "getraenke",
+      "price": 3.00,
+      "description": "Fanta 1 Liter",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["fanta","94a","94A"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-094b",
+      "productNumber": "94B",
+      "name": "Sprite 1L",
+      "category": "getraenke",
+      "price": 3.00,
+      "description": "Sprite 1 Liter",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["sprite","94b","94B"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-094c",
+      "productNumber": "94C",
+      "name": "Mezzo Mix 1L",
+      "category": "getraenke",
+      "price": 3.00,
+      "description": "Mezzo Mix 1 Liter",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["mezzo","mix","94c","94C"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-094d",
+      "productNumber": "94D",
+      "name": "Eistee 1,5L",
+      "category": "getraenke",
+      "price": 3.50,
+      "description": "Eistee 1,5 Liter",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["eistee","eistee","94d","94D"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-095",
+      "productNumber": "95",
+      "name": "Sprudelwasser",
+      "category": "getraenke",
+      "price": 2.00,
+      "description": "Mineralwasser mit Kohlensäure",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["sprudelwasser","sprudel","wasser","mineral","95"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-enc1",
+      "productNumber": "E1",
+      "name": "Enchiladas mit Spinat und Schafskäse",
+      "category": "enchiladas",
+      "price": 9.00,
+      "description": "weiche Weizentortillas gefüllt mit buntem Salat, Sour Cream und mit Käse überbacken",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["enchiladas","spinat","schafskaese","schafskäse"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-enc2",
+      "productNumber": "E2",
+      "name": "Enchiladas mit Hähnchenfleisch",
+      "category": "enchiladas",
+      "price": 10.00,
+      "description": "weiche Weizentortillas gefüllt mit buntem Salat, Sour Cream und mit Käse überbacken",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["enchiladas","haehnchen","hähnchen"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-enc3",
+      "productNumber": "E3",
+      "name": "Enchiladas mit Rinderhack",
+      "category": "enchiladas",
+      "price": 10.00,
+      "description": "weiche Weizentortillas gefüllt mit buntem Salat, Sour Cream und mit Käse überbacken",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["enchiladas","rinderhack","rind","hackfleisch"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-enc4",
+      "productNumber": "E4",
+      "name": "Enchiladas mit mexikanischem Gemüse",
+      "category": "enchiladas",
+      "price": 9.00,
+      "description": "weiche Weizentortillas gefüllt mit buntem Salat, Sour Cream und mit Käse überbacken",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["enchiladas","mexikanisch","gemuese","gemüse"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-grill1",
+      "productNumber": "G1",
+      "name": "Gegrilltes Hähnchenbrustfilet",
+      "category": "gegrilltes",
+      "price": 12.00,
+      "description": "mit Spinat, Sour Creme und Käse",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["gegrilltes","haehnchenbrustfilet","hähnchen","spinat","sour cream"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-ang-a",
+      "productNumber": "A",
+      "name": "Angebot A",
+      "category": "angebote",
+      "price": 22.00,
+      "description": "1 Familien Pizza mit 5 Belägen, 1 gemischter Salat & 1 Liter Cola",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [
+        {
+          "type": "belaege",
+          "name": "Beläge nach Wahl (5)",
+          "required": true,
+          "multiple": true,
+          "maxChoices": 5,
+          "options": [
+            {"id":"ananas","name":"Ananas","price":0},
+            {"id":"artischocken","name":"Artischocken","price":0},
+            {"id":"bohnen","name":"Bohnen","price":0},
+            {"id":"broccoli","name":"Broccoli","price":0},
+            {"id":"hackfleisch","name":"Hackfleisch","price":0},
+            {"id":"haehnchen","name":"Hähnchen","price":0},
+            {"id":"knoblauch","name":"Knoblauch","price":0},
+            {"id":"krabben","name":"Krabben","price":0},
+            {"id":"kaese","name":"Käse","price":0},
+            {"id":"mais","name":"Mais","price":0},
+            {"id":"meeresfruechte","name":"Meeresfrüchte","price":0},
+            {"id":"mozzarella","name":"Mozzarella","price":0},
+            {"id":"muscheln","name":"Muscheln","price":0},
+            {"id":"oliven","name":"Oliven","price":0},
+            {"id":"paprika","name":"Paprika","price":0},
+            {"id":"peperoni","name":"Peperoni","price":0},
+            {"id":"peperoniwurst","name":"Peperoniwurst","price":0},
+            {"id":"pilze","name":"Pilze","price":0},
+            {"id":"rinderschinken","name":"Rinderschinken","price":0},
+            {"id":"rindfleisch","name":"Rindfleisch","price":0},
+            {"id":"salami","name":"Salami","price":0},
+            {"id":"sardellen","name":"Sardellen","price":0},
+            {"id":"schinken","name":"Schinken","price":0},
+            {"id":"spinat","name":"Spinat","price":0},
+            {"id":"sucuk","name":"Sucuk","price":0},
+            {"id":"thunfisch","name":"Thunfisch","price":0},
+            {"id":"tintenfisch","name":"Tintenfisch","price":0},
+            {"id":"tomaten","name":"Tomaten","price":0},
+            {"id":"tomatensauce","name":"Tomatensauce","price":0},
+            {"id":"weichkaese","name":"Weichkäse","price":0},
+            {"id":"zwiebeln","name":"Zwiebeln","price":0}
+          ]
+        }
+      ],
+      "searchTerms": ["angebot","a","familien","familie"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-ang-b",
+      "productNumber": "B",
+      "name": "Angebot B",
+      "category": "angebote",
+      "price": 25.00,
+      "description": "1 Party Pizza mit 5 Belägen, 1 gemischter Salat & 1 Liter Cola",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [
+        {
+          "type": "belaege",
+          "name": "Beläge nach Wahl (5)",
+          "required": true,
+          "multiple": true,
+          "maxChoices": 5,
+          "options": [
+            {"id":"ananas","name":"Ananas","price":0},
+            {"id":"artischocken","name":"Artischocken","price":0},
+            {"id":"bohnen","name":"Bohnen","price":0},
+            {"id":"broccoli","name":"Broccoli","price":0},
+            {"id":"hackfleisch","name":"Hackfleisch","price":0},
+            {"id":"haehnchen","name":"Hähnchen","price":0},
+            {"id":"knoblauch","name":"Knoblauch","price":0},
+            {"id":"krabben","name":"Krabben","price":0},
+            {"id":"kaese","name":"Käse","price":0},
+            {"id":"mais","name":"Mais","price":0},
+            {"id":"meeresfruechte","name":"Meeresfrüchte","price":0},
+            {"id":"mozzarella","name":"Mozzarella","price":0},
+            {"id":"muscheln","name":"Muscheln","price":0},
+            {"id":"oliven","name":"Oliven","price":0},
+            {"id":"paprika","name":"Paprika","price":0},
+            {"id":"peperoni","name":"Peperoni","price":0},
+            {"id":"peperoniwurst","name":"Peperoniwurst","price":0},
+            {"id":"pilze","name":"Pilze","price":0},
+            {"id":"rinderschinken","name":"Rinderschinken","price":0},
+            {"id":"rindfleisch","name":"Rindfleisch","price":0},
+            {"id":"salami","name":"Salami","price":0},
+            {"id":"sardellen","name":"Sardellen","price":0},
+            {"id":"schinken","name":"Schinken","price":0},
+            {"id":"spinat","name":"Spinat","price":0},
+            {"id":"sucuk","name":"Sucuk","price":0},
+            {"id":"thunfisch","name":"Thunfisch","price":0},
+            {"id":"tintenfisch","name":"Tintenfisch","price":0},
+            {"id":"tomaten","name":"Tomaten","price":0},
+            {"id":"tomatensauce","name":"Tomatensauce","price":0},
+            {"id":"weichkaese","name":"Weichkäse","price":0},
+            {"id":"zwiebeln","name":"Zwiebeln","price":0}
+          ]
+        }
+      ],
+      "searchTerms": ["angebot","b","party"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-ang-c",
+      "productNumber": "C",
+      "name": "Angebot C",
+      "category": "angebote",
+      "price": 26.00,
+      "description": "2 große Pizzen mit jeweils 4 Belägen, 1 gemischter Salat & 1 Liter Cola",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [
+        {
+          "type": "belaege",
+          "name": "Beläge nach Wahl (8)",
+          "required": true,
+          "multiple": true,
+          "maxChoices": 8,
+          "options": [
+            {"id":"ananas","name":"Ananas","price":0},
+            {"id":"artischocken","name":"Artischocken","price":0},
+            {"id":"bohnen","name":"Bohnen","price":0},
+            {"id":"broccoli","name":"Broccoli","price":0},
+            {"id":"hackfleisch","name":"Hackfleisch","price":0},
+            {"id":"haehnchen","name":"Hähnchen","price":0},
+            {"id":"knoblauch","name":"Knoblauch","price":0},
+            {"id":"krabben","name":"Krabben","price":0},
+            {"id":"kaese","name":"Käse","price":0},
+            {"id":"mais","name":"Mais","price":0},
+            {"id":"meeresfruechte","name":"Meeresfrüchte","price":0},
+            {"id":"mozzarella","name":"Mozzarella","price":0},
+            {"id":"muscheln","name":"Muscheln","price":0},
+            {"id":"oliven","name":"Oliven","price":0},
+            {"id":"paprika","name":"Paprika","price":0},
+            {"id":"peperoni","name":"Peperoni","price":0},
+            {"id":"peperoniwurst","name":"Peperoniwurst","price":0},
+            {"id":"pilze","name":"Pilze","price":0},
+            {"id":"rinderschinken","name":"Rinderschinken","price":0},
+            {"id":"rindfleisch","name":"Rindfleisch","price":0},
+            {"id":"salami","name":"Salami","price":0},
+            {"id":"sardellen","name":"Sardellen","price":0},
+            {"id":"schinken","name":"Schinken","price":0},
+            {"id":"spinat","name":"Spinat","price":0},
+            {"id":"sucuk","name":"Sucuk","price":0},
+            {"id":"thunfisch","name":"Thunfisch","price":0},
+            {"id":"tintenfisch","name":"Tintenfisch","price":0},
+            {"id":"tomaten","name":"Tomaten","price":0},
+            {"id":"tomatensauce","name":"Tomatensauce","price":0},
+            {"id":"weichkaese","name":"Weichkäse","price":0},
+            {"id":"zwiebeln","name":"Zwiebeln","price":0}
+          ]
+        }
+      ],
+      "searchTerms": ["angebot","c","2 pizzen","gross"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-ang-d",
+      "productNumber": "D",
+      "name": "Angebot D",
+      "category": "angebote",
+      "price": 15.00,
+      "description": "2X Big Cheeseburger - 1 Pommes Groß - 1 Liter Cola",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["angebot","d","cheeseburger","big"],
+      "isSpicy": false
+    },
+    {
+      "id": "prod-ang-e",
+      "productNumber": "E",
+      "name": "Angebot E",
+      "category": "angebote",
+      "price": 28.00,
+      "description": "2 Portionen Schnitzel Bolognese mit Rigatoni & Käse überbacken, 2x Beilagensalat & 1 Liter Cola",
+      "sizes": [],
+      "defaultSize": null,
+      "modifiers": [],
+      "searchTerms": ["angebot","e","schnitzel","bolognese"],
+      "isSpicy": false
+    }
+  ],
+  "sharedModifiers": {
+    "pizzaExtras": {
+      "type": "extrazutaten",
+      "name": "Extra Zutaten",
+      "required": false,
+      "multiple": true,
+      "options": [
+        {"id":"ananas","name":"Ananas","price":1.00},
+        {"id":"artischocken","name":"Artischocken","price":1.00},
+        {"id":"bohnen","name":"Bohnen","price":1.00},
+        {"id":"broccoli","name":"Broccoli","price":1.00},
+        {"id":"hackfleisch","name":"Hackfleisch","price":1.00},
+        {"id":"haehnchen","name":"Hähnchen","price":1.00},
+        {"id":"knoblauch","name":"Knoblauch","price":0.50},
+        {"id":"krabben","name":"Krabben","price":1.50},
+        {"id":"kaese","name":"Käse","price":1.00},
+        {"id":"mais","name":"Mais","price":1.00},
+        {"id":"meeresfruechte","name":"Meeresfrüchte","price":2.00},
+        {"id":"mozzarella","name":"Mozzarella","price":1.00},
+        {"id":"muscheln","name":"Muscheln","price":1.50},
+        {"id":"oliven","name":"Oliven","price":1.00},
+        {"id":"paprika","name":"Paprika","price":1.00},
+        {"id":"peperoni","name":"Peperoni","price":1.00},
+        {"id":"peperoniwurst","name":"Peperoniwurst","price":1.00},
+        {"id":"pilze","name":"Pilze","price":1.00},
+        {"id":"rinderschinken","name":"Rinderschinken","price":1.00},
+        {"id":"rindfleisch","name":"Rindfleisch","price":1.50},
+        {"id":"salami","name":"Salami","price":1.00},
+        {"id":"sardellen","name":"Sardellen","price":1.00},
+        {"id":"schinken","name":"Schinken","price":1.00},
+        {"id":"spinat","name":"Spinat","price":1.00},
+        {"id":"sucuk","name":"Sucuk","price":1.00},
+        {"id":"thunfisch","name":"Thunfisch","price":1.00},
+        {"id":"tintenfisch","name":"Tintenfisch","price":1.50},
+        {"id":"tomaten","name":"Tomaten","price":1.00},
+        {"id":"tomatensauce","name":"Tomatensauce","price":0.50},
+        {"id":"weichkaese","name":"Weichkäse","price":1.00},
+        {"id":"zwiebeln","name":"Zwiebeln","price":0.50}
+      ]
+    },
+    "kaeserand": {
+      "type": "special",
+      "name": "Auf Wunsch",
+      "required": false,
+      "multiple": false,
+      "options": [
+        {"id":"kaeserand","name":"Käserand","price":2.50}
+      ]
+    },
+    "pastaChoice": {
+      "type": "pasta_choice",
+      "name": "Nudelsorte nach Wahl",
+      "required": true,
+      "multiple": false,
+      "options": [
+        {"id":"rigatoni","name":"Rigatoni","price":0},
+        {"id":"spaghetti","name":"Spaghetti","price":0},
+        {"id":"tortellini","name":"Tortellini","price":0}
+      ]
+    },
+    "saladSizes": {
+      "type": "size",
+      "name": "Größe",
+      "required": true,
+      "multiple": false,
+      "options": [
+        {"id":"klein","name":"Klein","price":0},
+        {"id":"gross","name":"Groß","price":2.50}
+      ]
+    }
+  },
+  "settings": {
+    "orderNumberPrefix": "TK",
+    "orderNumberStart": 1001,
+    "taxRate": 19,
+    "currency": "EUR",
+    "language": "de",
+    "kitchenNotificationSound": true,
+    "orderTimeoutMinutes": 60
+  }
+}

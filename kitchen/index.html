@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PIZZA SCHAD - K&uuml;che</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0f16;--bg-card:#111920;--border:#1e2d3d;--text:#e8edf2;
+  --text-secondary:#7a8fa0;--text-muted:#4a5a6a;
+  --status-new:#e74c3c;--status-preparing:#f39c12;--status-ready:#2ecc71;
+  --accent:#3498db;--radius:14px;
+  --font:'Segoe UI',system-ui,-apple-system,sans-serif;
+}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.topbar{background:#0d141e;border-bottom:1px solid var(--border);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10}
+.topbar-left{display:flex;align-items:center;gap:16px}
+.topbar h1{font-size:24px;font-weight:800;color:var(--status-ready);letter-spacing:-1px}
+.topbar h1 span{color:var(--text-secondary);font-weight:400;font-size:14px;margin-left:8px}
+.topbar-time{font-size:32px;font-weight:300;font-variant-numeric:tabular-nums;color:var(--text);letter-spacing:2px}
+.topbar-right{display:flex;align-items:center;gap:16px}
+.stats{display:flex;gap:12px}
+.stat{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:10px 18px;text-align:center}
+.stat-val{font-size:28px;font-weight:700;line-height:1}
+.stat-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.stat.new .stat-val{color:var(--status-new)}
+.stat.preparing .stat-val{color:var(--status-preparing)}
+.stat.ready .stat-val{color:var(--status-ready)}
+.sound-toggle,.time-filter{background:var(--bg-card);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:var(--radius);cursor:pointer;font-size:13px;transition:all .15s;white-space:nowrap}
+.sound-toggle:hover,.time-filter:hover{background:var(--border)}
+.sound-toggle.muted{color:var(--status-new);border-color:var(--status-new)}
+.time-filter.active{border-color:var(--status-preparing);color:var(--status-preparing);font-weight:700}
+.orders-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px;padding:20px 28px;align-items:start}
+.order-card{background:var(--bg-card);border:2px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .3s}
+.order-card.status-NEW{border-color:var(--status-new)}
+.order-card.status-PREPARING{border-color:var(--status-preparing)}
+.order-card.status-READY{border-color:var(--status-ready);opacity:.85}
+.order-card.has-deadline{border-top:4px solid var(--accent)}
+.card-header{padding:18px 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(0,0,0,.2)}
+.order-number{font-size:24px;font-weight:800;letter-spacing:-.5px}
+.order-time{font-size:13px;color:var(--text-secondary);margin-top:2px}
+.status-badge{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+.status-NEW .status-badge{background:var(--status-new);color:#fff}
+.status-PREPARING .status-badge{background:var(--status-preparing);color:#000}
+.status-READY .status-badge{background:var(--status-ready);color:#000}
+.deadline-banner{text-align:center;padding:10px 18px;font-size:15px;font-weight:700;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:8px}
+.deadline-banner.ok{background:rgba(46,204,113,.1);color:var(--status-ready)}
+.deadline-banner.near{background:rgba(231,76,60,.12);color:var(--status-new);animation:dlPulse .7s ease infinite}
+.deadline-banner.due{background:var(--status-new);color:#fff;animation:dlPulse .35s ease infinite}
+@keyframes dlPulse{0%,100%{opacity:1}50%{opacity:.6}}
+.card-body{padding:18px 22px}
+.order-items-list{list-style:none}
+.order-items-list li{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:flex-start;gap:12px}
+.order-items-list li:last-child{border-bottom:none}
+.order-items-list li.combo-header{display:block;padding:9px 12px;margin:6px 0 2px;background:rgba(243,156,18,.14);border:1px solid var(--status-preparing);border-radius:8px;color:var(--status-preparing);font-size:15px;font-weight:800;letter-spacing:.3px}
+.order-items-list li.combo-item{border-left:3px solid rgba(243,156,18,.4);padding-left:12px;background:rgba(243,156,18,.04)}
+.item-qty{background:var(--accent);color:#fff;min-width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;flex-shrink:0}
+.item-info{flex:1;min-width:0}
+.item-name{font-size:18px;font-weight:700;line-height:1.3;margin-bottom:4px}
+.item-product-num{color:var(--text-muted);font-size:12px;font-weight:400}
+.item-base{font-size:15px;color:#cdd9e3;font-weight:500;line-height:1.45;margin-top:3px;display:flex;gap:6px;align-items:flex-start}
+.item-base .ib-icon{flex-shrink:0;opacity:.8}
+.item-size{font-size:14px;color:var(--accent);font-weight:600;margin-top:4px}
+.item-modifiers{font-size:13px;color:var(--text-secondary);margin-top:6px;line-height:1.6}
+.mod-group{margin-top:4px;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.mod-label{font-weight:700;font-size:12px;color:var(--text);text-transform:uppercase;letter-spacing:.5px;margin-right:2px}
+.mod-group.g-belag .mod-label{color:var(--status-ready)}
+.mod-group.g-extra .mod-label{color:var(--accent)}
+.mod-group.g-special .mod-label{color:var(--status-preparing)}
+.item-modifiers span.mod-val{display:inline-block;background:rgba(255,255,255,.1);padding:3px 9px;border-radius:6px;font-weight:600;color:var(--text)}
+.mod-group.g-belag span.mod-val{background:rgba(46,204,113,.16);color:#7fe6a8}
+.mod-group.g-extra span.mod-val{background:rgba(52,152,219,.16);color:#7fc4ec}
+.mod-group.g-special span.mod-val{background:rgba(243,156,18,.16);color:#f3c074}
+.item-notes{font-size:13px;color:var(--status-preparing);font-weight:600;margin-top:4px;font-style:italic}
+.card-timer{text-align:center;padding:12px;font-size:30px;font-weight:700;color:var(--text);border-top:1px solid var(--border);font-variant-numeric:tabular-nums;transition:color .3s;background:rgba(0,0,0,.15)}
+.card-timer.age-warn{color:var(--status-preparing)}
+.card-timer.age-hot{color:#e67e22}
+.card-timer.age-crit{color:var(--status-new);animation:dlPulse 1s ease infinite}
+.card-actions{padding:12px 22px 16px;display:flex;gap:10px}
+.card-actions button{flex:1;padding:12px;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.5px}
+.btn-preparing{background:rgba(243,156,18,.15);color:var(--status-preparing);border:1px solid var(--status-preparing)}
+.btn-preparing:hover{background:var(--status-preparing);color:#000}
+.btn-ready{background:rgba(46,204,113,.15);color:var(--status-ready);border:1px solid var(--status-ready)}
+.btn-ready:hover{background:var(--status-ready);color:#000}
+.btn-new{background:rgba(231,76,60,.15);color:var(--status-new);border:1px solid var(--status-new)}
+.btn-new:hover{background:var(--status-new);color:#fff}
+.empty-state{grid-column:1/-1;text-align:center;padding:80px 20px}
+.empty-state .icon{font-size:72px;margin-bottom:16px;opacity:.3}
+.empty-state h2{font-size:24px;color:var(--text-secondary);margin-bottom:8px}
+.empty-state p{color:var(--text-muted);font-size:14px}
+.timestamp{font-size:10px;color:var(--text-muted);text-align:right;padding:4px 22px 8px}
+@media(max-width:768px){.orders-grid{grid-template-columns:1fr;padding:12px}.topbar{padding:10px 16px}.topbar h1{font-size:18px}.topbar-time{font-size:24px}.stat-val{font-size:22px}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left"><h1>PIZZA SCHAD<span> | K&uuml;chenanzeige</span></h1></div>
+  <div class="topbar-right">
+    <div class="stats">
+      <div class="stat new"><div class="stat-val" id="countNew">0</div><div class="stat-label">Neu</div></div>
+      <div class="stat preparing"><div class="stat-val" id="countPreparing">0</div><div class="stat-label">In Arbeit</div></div>
+      <div class="stat ready"><div class="stat-val" id="countReady">0</div><div class="stat-label">Fertig</div></div>
+    </div>
+    <button class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔊 Ton an</button>
+    <button class="time-filter" id="timeFilter" onclick="cycleTimeFilter()">⏰ Alle</button>
+    <div class="topbar-time" id="clock">00:00:00</div>
+  </div>
+</div>
+<div class="orders-grid" id="ordersGrid">
+  <div class="empty-state"><div class="icon">🍳</div><h2>Keine aktiven Bestellungen</h2><p>Neue Bestellungen erscheinen hier in Echtzeit</p></div>
+</div>
+
+<script>
+const STORAGE_KEY = 'tana-orders';
+let knownOrderIds = new Set();
+let soundEnabled = true;
+let orders = {};
+let timeFilter = null;
+let deadlineAlertsFired = {}; // track which deadlines already alerted
+
+// Menu lookup: maps productId AND productNumber -> base ingredients (menu description),
+// so the kitchen sees what's in each dish without the cashier having to embed it.
+let menuDesc = {};
+function loadMenu() {
+  fetch('../firebase/menu-data.json')
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      var prods = (data && data.products) || [];
+      prods.forEach(function(p){
+        var d = (p.description == null ? '' : String(p.description)).trim();
+        if (!d) return;
+        if (p.id) menuDesc['id:'+p.id] = d;
+        if (p.productNumber != null) menuDesc['num:'+String(p.productNumber)] = d;
+      });
+      renderAllOrders();
+    })
+    .catch(function(){ /* menu optional; cards still work without base ingredients */ });
+}
+function getItemIngredients(item) {
+  if (!item) return '';
+  if (item.productId && menuDesc['id:'+item.productId]) return menuDesc['id:'+item.productId];
+  if (item.productNumber != null && menuDesc['num:'+String(item.productNumber)]) return menuDesc['num:'+String(item.productNumber)];
+  return '';
+}
+
+function getOrders() { try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');}catch(e){return[];} }
+function saveOrders(o) { localStorage.setItem(STORAGE_KEY, JSON.stringify(o)); }
+
+setInterval(()=>{document.getElementById('clock').textContent=new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',second:'2-digit'});},1000);
+document.getElementById('clock').textContent=new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+
+function toggleSound() {
+  soundEnabled=!soundEnabled;
+  const b=document.getElementById('soundToggle');
+  b.textContent=soundEnabled?'🔊 Ton an':'🔇 Ton aus';
+  if(!soundEnabled)b.classList.add('muted');else b.classList.remove('muted');
+}
+
+function cycleTimeFilter() {
+  const opts = [null, 15, 30, 60];
+  const labels = ['Alle', '>15 min', '>30 min', '>60 min'];
+  const idx = opts.indexOf(timeFilter);
+  timeFilter = opts[(idx + 1) % opts.length];
+  const btn = document.getElementById('timeFilter');
+  btn.textContent = '⏰ ' + labels[(idx + 1) % opts.length];
+  if (timeFilter) btn.classList.add('active'); else btn.classList.remove('active');
+  renderAllOrders();
+}
+
+function getOrderAgeMinutes(order) {
+  if (!order.createdAt) return 0;
+  return Math.floor((Date.now() - new Date(order.createdAt).getTime()) / 60000);
+}
+
+function playAlertSound(repeat) {
+  if(!soundEnabled)return;
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const reps = repeat || 3;
+    for(let r=0; r<reps; r++){
+      const offset = r * 1.2;
+      const st = ctx.currentTime + offset;
+      for(let i=0;i<3;i++){
+        const t=st+i*.15;
+        const o=ctx.createOscillator(),g=ctx.createGain();
+        o.connect(g);g.connect(ctx.destination);
+        o.frequency.value=1000;o.type='square';
+        g.gain.setValueAtTime(.7,t);g.gain.linearRampToValueAtTime(.001,t+.12);
+        o.start(t);o.stop(t+.13);
+      }
+    }
+    setTimeout(()=>ctx.close(),(reps*1.2+1)*1000);
+  }catch(e){}
+}
+
+function playNotificationSound() {
+  if(!soundEnabled)return;
+  try{
+    const ctx=new(window.AudioContext||window.webkitAudioContext)();
+    const D=4,BL=.15,G=.1,st=ctx.currentTime;
+    for(let i=0;i<D/(BL+G);i++){
+      const t=st+i*(BL+G);
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);
+      o.frequency.value=i%2===0?880:660;o.type='square';
+      g.gain.setValueAtTime(.6,t);g.gain.linearRampToValueAtTime(.001,t+BL);
+      o.start(t);o.stop(t+BL+.01);
+    }
+    setTimeout(()=>ctx.close(),(D+1)*1000);
+  }catch(e){}
+}
+
+function formatTimeAgo(ts) {
+  if(!ts)return'--:--';
+  const d=Math.floor((Date.now()-new Date(ts).getTime())/1000);
+  const m=Math.floor(d/60),h=Math.floor(m/60);
+  if(h>0)return h+' Std '+ (m%60)+' min';
+  if(m>0)return m+' min '+ (d%60)+' s';
+  return d+' s';
+}
+
+function getDeadlineInfo(order) {
+  if (!order.deadline) return null;
+  const [h,m] = order.deadline.split(':').map(Number);
+  const dl = new Date(); dl.setHours(h,m,0,0);
+  const diffMin = Math.floor((dl - Date.now()) / 60000);
+  return { time: order.deadline, minsLeft: diffMin, isNear: diffMin <= 30 && diffMin > 0, isDue: diffMin <= 0 };
+}
+
+// Check deadlines and trigger alerts
+function checkDeadlineAlerts() {
+  Object.values(orders).forEach(order => {
+    if (!order.deadline) return;
+    const info = getDeadlineInfo(order);
+    if (!info) return;
+
+    // Alert exactly at 30 min before deadline (only once per order)
+    if (info.minsLeft === 30 && !deadlineAlertsFired[order.id+'_30']) {
+      deadlineAlertsFired[order.id+'_30'] = true;
+      playAlertSound(5); // 5x loud beeps
+    }
+    // Alert at 15 min
+    if (info.minsLeft === 15 && !deadlineAlertsFired[order.id+'_15']) {
+      deadlineAlertsFired[order.id+'_15'] = true;
+      playAlertSound(7); // 7x loud beeps
+    }
+    // Alert at 5 min
+    if (info.minsLeft === 5 && !deadlineAlertsFired[order.id+'_5']) {
+      deadlineAlertsFired[order.id+'_5'] = true;
+      playAlertSound(10); // 10x loud beeps
+    }
+    // Alert when overdue
+    if (info.minsLeft === 0 && !deadlineAlertsFired[order.id+'_0']) {
+      deadlineAlertsFired[order.id+'_0'] = true;
+      playAlertSound(10);
+    }
+  });
+}
+
+// Update timers + deadline bars + check alerts every second
+setInterval(()=>{
+  document.querySelectorAll('.card-timer').forEach(e=>{
+    const t=e.dataset.timestamp;if(t)e.textContent='⏱ '+formatTimeAgo(t);
+  });
+  document.querySelectorAll('.deadline-banner').forEach(el=>{
+    const ts=el.dataset.deadline;if(!ts)return;
+    const [h,m]=ts.split(':').map(Number);
+    const dl=new Date();dl.setHours(h,m,0,0);
+    const dm=Math.floor((dl-Date.now())/60000);
+    const mins=Math.abs(dm);
+    if(dm<=0){el.className='deadline-banner due';el.textContent='⚠️ ÜBERFÄLLIG seit '+mins+' min — SOFORT FERTIGSTELLEN! ('+ts+')';}
+    else if(dm<=15){el.className='deadline-banner near';el.textContent='🚨 NOCH '+mins+' MIN — Fertig bis '+ts;}
+    else if(dm<=30){el.className='deadline-banner near';el.textContent='⏰ NOCH '+mins+' MIN — Fertig bis '+ts;}
+    else {el.className='deadline-banner ok';el.textContent='✓ Fertig bis '+ts+' (in '+mins+' min)';}
+  });
+  checkDeadlineAlerts();
+},1000);
+
+function changeStatus(orderId, newStatus) {
+  const all=getOrders();
+  const i=all.findIndex(o=>o.id===orderId);
+  if(i===-1)return;
+  all[i].status=newStatus;all[i].updatedAt=new Date().toISOString();
+  if(newStatus==='READY')all[i].completedAt=new Date().toISOString();
+  saveOrders(all);
+  if(orders[orderId]){orders[orderId].status=newStatus;orders[orderId].updatedAt=all[i].updatedAt;}
+  renderAllOrders();
+}
+
+// Map raw group keys (combo machine-keys OR product modifier names) to a clean label + css class.
+function modGroupMeta(rawGroup) {
+  var g = (rawGroup == null ? '' : String(rawGroup)).trim().toLowerCase();
+  if (g === 'belag' || g === 'beläge' || g === 'belaege') return { label: '🍕 Belag', cls: 'g-belag' };
+  if (g === 'special' || g === 'käserand' || g === 'kaeserand' || g === 'auf wunsch') return { label: '🧀 Wunsch', cls: 'g-special' };
+  if (g === 'extras' || g === 'extra' || g === 'extrazutaten' || g === 'extra zutaten') return { label: '➕ Extra', cls: 'g-extra' };
+  if (!g) return { label: '➕ Extra', cls: 'g-extra' };
+  // Unknown but meaningful group name (regular product modifiers) -> show it as-is.
+  return { label: '➕ ' + String(rawGroup).trim(), cls: 'g-extra' };
+}
+
+// Build the additions block for one item. Fully guarded: never emits a bare symbol,
+// never emits "undefined", groups additions by category with clear labels.
+function renderItemModifiers(item) {
+  var mods = (item && item.modifiers) || [];
+  if (!Array.isArray(mods) || mods.length === 0) return '';
+  var groupsOrder = [];
+  var groupsMap = {};
+  for (var i = 0; i < mods.length; i++) {
+    var m = mods[i];
+    if (!m) continue;
+    // Accept several shapes: {option}, {name}, or a plain string.
+    var name;
+    if (typeof m === 'string') name = m;
+    else name = (m.option != null ? m.option : (m.name != null ? m.name : ''));
+    name = String(name).trim();
+    if (!name || name.toLowerCase() === 'undefined' || name.toLowerCase() === 'null') continue;
+    var rawGroup = (typeof m === 'object' && m && m.group != null) ? m.group : 'Extra';
+    var key = String(rawGroup).trim().toLowerCase() || 'extra';
+    if (!groupsMap[key]) { groupsMap[key] = { meta: modGroupMeta(rawGroup), vals: [] }; groupsOrder.push(key); }
+    groupsMap[key].vals.push(name);
+  }
+  if (groupsOrder.length === 0) return '';
+  var html = '<div class="item-modifiers">';
+  for (var j = 0; j < groupsOrder.length; j++) {
+    var grp = groupsMap[groupsOrder[j]];
+    html += '<div class="mod-group ' + grp.meta.cls + '"><span class="mod-label">' + grp.meta.label + '</span>'
+      + grp.vals.map(function (n) { return '<span class="mod-val">' + n + '</span>'; }).join('')
+      + '</div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+// Render the item <li> list. Items belonging to the same Angebot (combo) are
+// preceded by one header showing the Angebot name, and visually grouped.
+function renderItemsList(items) {
+  if (!Array.isArray(items)) return '';
+  var html = '';
+  var lastCombo = null;
+  items.forEach(function(item){
+    if (!item) return;
+    var cid = item.comboId || null;
+    if (cid && cid !== lastCombo) {
+      var cname = String(item.comboName || 'Angebot').trim() || 'Angebot';
+      html += '<li class="combo-header">🌟 ' + cname + '</li>';
+      lastCombo = cid;
+    } else if (!cid) {
+      lastCombo = null;
+    }
+    var modTxt = renderItemModifiers(item);
+    var sizeName = item.size ? String(item.size.name||item.size.id||'').trim() : '';
+    var notes = item.notes ? String(item.notes).trim() : '';
+    var ingredients = getItemIngredients(item);
+    html += '<li'+(cid?' class="combo-item"':'')+'><span class="item-qty">'+(item.quantity||1)+'x</span><div class="item-info">'
+      + '<div class="item-name">'+(item.name||'?')+(item.productNumber?' <span class="item-product-num">#'+item.productNumber+'</span>':'')+'</div>'
+      + (ingredients?'<div class="item-base"><span class="ib-icon">🧾</span><span>'+ingredients+'</span></div>':'')
+      + (sizeName?'<div class="item-size">📏 '+sizeName+'</div>':'')
+      + modTxt
+      + (notes?'<div class="item-notes">📝 '+notes+'</div>':'')
+      + '</div></li>';
+  });
+  return html;
+}
+
+function renderOrderCard(order) {
+  const items=order.items||[],ts=order.createdAt;
+  const age=getOrderAgeMinutes(order);
+  let ageClass='';
+  if(age>60)ageClass=' age-crit';
+  else if(age>30)ageClass=' age-hot';
+  else if(age>15)ageClass=' age-warn';
+
+  let deadlineHtml='';
+  if(order.deadline){
+    const dl=getDeadlineInfo(order);
+    if(dl){
+      let cls='',txt='';
+      if(dl.isDue){cls=' due';txt='⚠️ ÜBERFÄLLIG seit '+Math.abs(dl.minsLeft)+' min — SOFORT FERTIGSTELLEN! ('+dl.time+')';}
+      else if(dl.minsLeft<=15){cls=' near';txt='🚨 NOCH '+dl.minsLeft+' MIN — Fertig bis '+dl.time;}
+      else if(dl.minsLeft<=30){cls=' near';txt='⏰ NOCH '+dl.minsLeft+' MIN — Fertig bis '+dl.time;}
+      else {cls=' ok';txt='✓ Fertig bis '+dl.time+' (in '+dl.minsLeft+' min)';}
+      deadlineHtml='<div class="deadline-banner'+cls+'" data-deadline="'+order.deadline+'">'+txt+'</div>';
+    }
+  }
+
+  const hasDeadlineClass = order.deadline ? ' has-deadline' : '';
+
+  return '<div class="order-card status-'+order.status+hasDeadlineClass+'" id="card-'+order.id+'">'
+    +'<div class="card-header status-'+order.status+'">'
+    +'<div><div class="order-number">'+order.orderNumber+'</div><div class="order-time">'+new Date(ts).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})+' Uhr</div></div>'
+    +'<span class="status-badge">'+order.status+'</span>'
+    +'</div>'
+    +deadlineHtml
+    +'<div class="card-body"><ul class="order-items-list">'
+    +renderItemsList(items)
+    +'</ul></div>'
+    +'<div class="card-timer'+ageClass+'" data-timestamp="'+ts+'">⏱ '+formatTimeAgo(ts)+'</div>'
+    +'<div class="card-actions">'
+    +(order.status==='NEW'?'<button class="btn-preparing" onclick="changeStatus(\''+order.id+'\',\'PREPARING\')">▶ In Arbeit</button><button class="btn-ready" onclick="changeStatus(\''+order.id+'\',\'READY\')">✓ Fertig</button>':'')
+    +(order.status==='PREPARING'?'<button class="btn-new" onclick="changeStatus(\''+order.id+'\',\'NEW\')">← Zur&uuml;ck</button><button class="btn-ready" onclick="changeStatus(\''+order.id+'\',\'READY\')">✓ Fertig</button>':'')
+    +'</div>'
+    +'<div class="timestamp">ID: '+order.id+'</div>'
+    +'</div>';
+}
+
+function renderAllOrders() {
+  const grid=document.getElementById('ordersGrid');
+  let list=Object.values(orders);
+  if(timeFilter){list=list.filter(o=>getOrderAgeMinutes(o)>=timeFilter);}
+
+  const so={'NEW':0,'PREPARING':1,'READY':2};
+  list.sort((a,b)=>{const sa=so[a.status]??3,sb=so[b.status]??3;if(sa!==sb)return sa-sb;return new Date(b.createdAt).getTime()-new Date(a.createdAt).getTime();});
+
+  document.getElementById('countNew').textContent=list.filter(o=>o.status==='NEW').length;
+  document.getElementById('countPreparing').textContent=list.filter(o=>o.status==='PREPARING').length;
+  document.getElementById('countReady').textContent=list.filter(o=>o.status==='READY').length;
+
+  if(list.length===0){
+    const msg=timeFilter?'Keine Bestellungen > '+timeFilter+' min':'Keine aktiven Bestellungen';
+    grid.innerHTML='<div class="empty-state"><div class="icon">🍳</div><h2>'+msg+'</h2><p>Neue Bestellungen erscheinen hier in Echtzeit</p></div>';
+    return;
+  }
+  grid.innerHTML=list.map(renderOrderCard).join('');
+}
+
+function loadOrdersFromStorage() {
+  const all=getOrders();
+  const active=['NEW','PREPARING'];
+  const newOrders={};
+  all.forEach(order=>{
+    if(active.includes(order.status)){
+      newOrders[order.id]=order;
+      if(!knownOrderIds.has(order.id)){playNotificationSound();}
+    }
+  });
+  knownOrderIds=new Set(Object.keys(newOrders));
+  orders=newOrders;
+  renderAllOrders();
+}
+
+window.addEventListener('storage',e=>{if(e.key===STORAGE_KEY)loadOrdersFromStorage();});
+loadMenu();
+loadOrdersFromStorage();
+setInterval(loadOrdersFromStorage,2000);
+</script>
+</body>
+</html>

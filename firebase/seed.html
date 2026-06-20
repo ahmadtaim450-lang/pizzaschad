@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seed Firestore - Tana Vibe Kodor</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f1923;color:#e8edf2;display:flex;align-items:center;justify-content:center;min-height:100vh}
+.container{max-width:600px;width:100%;padding:40px;background:#1a2736;border-radius:16px;border:1px solid #2a3f55;text-align:center}
+h1{color:#2ecc71;margin-bottom:8px;font-size:28px}
+p{color:#8fa3b8;font-size:13px;margin-bottom:24px}
+button{padding:16px 40px;background:#2ecc71;color:#000;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;transition:all .15s;margin:8px}
+button:hover{background:#27ae60;transform:translateY(-1px)}
+button:disabled{opacity:.5;cursor:not-allowed;transform:none}
+button.danger{background:#e74c3c;color:#fff}
+button.danger:hover{background:#c0392b}
+.log{background:#0d141e;border-radius:8px;padding:16px;text-align:left;font-size:11px;font-family:'Consolas','Courier New',monospace;color:#2ecc71;max-height:300px;overflow-y:auto;margin-top:20px;white-space:pre-wrap;line-height:1.6}
+.log .error{color:#e74c3c}
+.log .warn{color:#f39c12}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🍕 Tana Vibe Kodor</h1>
+  <p>Firestore mit 15 Kategorien und 112 Produkten befüllen</p>
+  
+  <button id="seedBtn" onclick="runSeed()">▶ Daten importieren</button>
+  <button class="danger" id="clearBtn" onclick="clearAll()" disabled>🗑 Alle Daten löschen</button>
+  
+  <div class="log" id="log">Bereit. Klicke auf "Daten importieren"...</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyDH-UQwNv4t0Xafz8-ARZjyr69k9VHVlDI",
+  authDomain: "schad-62da7.firebaseapp.com",
+  projectId: "schad-62da7",
+  storageBucket: "schad-62da7.firebasestorage.app",
+  messagingSenderId: "331626315267",
+  appId: "1:331626315267:web:30bf0cc377186b32131836"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+function log(msg, type) {
+  const el = document.getElementById('log');
+  const cls = type === 'error' ? 'error' : type === 'warn' ? 'warn' : '';
+  el.innerHTML += `<span class="${cls}">${msg}</span>\n`;
+  el.scrollTop = el.scrollHeight;
+}
+
+async function runSeed() {
+  const btn = document.getElementById('seedBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Importiere...';
+  document.getElementById('log').innerHTML = '';
+  log('🚀 Starte Seed...');
+
+  try {
+    const resp = await fetch('../firebase/menu-data.json');
+    const data = await resp.json();
+    
+    // Kategorien
+    log('📂 Importiere 15 Kategorien...');
+    const batch = db.batch();
+    data.categories.forEach(cat => {
+      batch.set(db.collection('categories').doc(cat.id), cat);
+    });
+    await batch.commit();
+    log('✅ Kategorien importiert');
+    
+    // Produkte
+    const sharedExtras = data.sharedModifiers.pizzaExtras;
+    const kaeserand = data.sharedModifiers.kaeserand;
+    let count = 0;
+    
+    for (const product of data.products) {
+      if (product.category === 'pizza' || product.category === 'angebote') {
+        if (!product.modifiers) product.modifiers = [];
+        const hasExtras = product.modifiers.some(m => m.type === 'extrazutaten');
+        const hasKaeserand = product.modifiers.some(m => m.type === 'special');
+        if (!hasExtras) product.modifiers.push(JSON.parse(JSON.stringify(sharedExtras)));
+        if (!hasKaeserand) product.modifiers.push(JSON.parse(JSON.stringify(kaeserand)));
+      }
+      product.isAvailable = true;
+      product.imageUrl = null;
+      product.createdAt = firebase.firestore.Timestamp.now();
+      
+      await db.collection('products').add(product);
+      count++;
+      if (count % 20 === 0) log(`   ${count}/${data.products.length} Produkte...`);
+    }
+    log(`✅ ${count} Produkte importiert`);
+    
+    // Settings
+    await db.collection('settings').doc('general').set({
+      restaurantName: 'Tana Vibe Kodor',
+      taxRate: 19,
+      currency: 'EUR',
+      orderNumberPrefix: 'TK',
+      orderTimeoutMin: 60,
+      soundEnabled: true
+    });
+    log('✅ Einstellungen gespeichert');
+    
+    // Counter
+    await db.collection('counters').doc('orderCounter').set({ lastNumber: 1000 });
+    log('✅ Zähler initialisiert (TK-1001)');
+    
+    log('');
+    log('🎉 FERTIG! System ist bereit.');
+    log('Öffne index.html und starte Kasse oder Küche.');
+    
+    btn.textContent = '✅ Erledigt';
+    document.getElementById('clearBtn').disabled = false;
+    
+  } catch(e) {
+    log('❌ FEHLER: ' + e.message, 'error');
+    log('Prüfe: 1) Firestore in Firebase Console aktiviert? 2) Rules auf allow read,write gesetzt?', 'warn');
+    btn.disabled = false;
+    btn.textContent = '🔄 Erneut versuchen';
+  }
+}
+
+async function clearAll() {
+  if (!confirm('ALLE Daten in Firestore löschen? Das kann nicht rückgängig gemacht werden!')) return;
+  
+  const btn = document.getElementById('clearBtn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Lösche...';
+  log('🗑 Lösche alle Daten...', 'warn');
+  
+  try {
+    const collections = ['categories','products','orders','settings','counters'];
+    for (const col of collections) {
+      const snap = await db.collection(col).get();
+      const batch = db.batch();
+      snap.forEach(doc => batch.delete(doc.ref));
+      await batch.commit();
+      log(`   ${col}: ${snap.size} gelöscht`);
+    }
+    log('✅ Alle Daten gelöscht');
+    document.getElementById('seedBtn').disabled = false;
+    document.getElementById('seedBtn').textContent = '▶ Daten importieren';
+    btn.disabled = true;
+    btn.textContent = '🗑 Alle Daten löschen';
+  } catch(e) {
+    log('❌ Fehler: ' + e.message, 'error');
+    btn.disabled = false;
+  }
+}
+</script>
+</body>
+</html>
