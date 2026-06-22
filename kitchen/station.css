@@ -1,0 +1,98 @@
+/* ============================================================
+   PIZZA SCHAD - Küchen-Stationen (gemeinsame Styles)
+   Wird von pizza.html / salat.html / kochen.html geladen.
+   ============================================================ */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0f16;--bg-card:#111920;--border:#1e2d3d;--text:#e8edf2;
+  --text-secondary:#7a8fa0;--text-muted:#4a5a6a;
+  --status-new:#e74c3c;--status-preparing:#f39c12;--status-ready:#2ecc71;
+  --accent:#3498db;--radius:14px;
+  --font:'Segoe UI',system-ui,-apple-system,sans-serif;
+  --station:#3498db; /* wird je Station überschrieben */
+}
+html{height:-webkit-fill-available}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;min-height:-webkit-fill-available;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+*{-webkit-tap-highlight-color:transparent}
+button{touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+
+/* ---------- Topbar ---------- */
+.topbar{background:#0d141e;border-bottom:3px solid var(--station);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:10;flex-wrap:wrap;gap:10px;padding-top:max(14px,env(safe-area-inset-top))}
+.topbar-left{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.topbar h1{font-size:24px;font-weight:800;color:var(--station);letter-spacing:-1px;display:flex;align-items:center;gap:8px}
+.topbar h1 span{color:var(--text-secondary);font-weight:400;font-size:13px}
+.topbar-right{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:flex-end}
+.topbar-time{font-size:30px;font-weight:300;font-variant-numeric:tabular-nums;color:var(--text);letter-spacing:2px}
+.station-nav{display:flex;gap:8px;flex-wrap:wrap}
+.station-nav a{text-decoration:none;background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:8px 13px;border-radius:10px;font-size:13px;font-weight:700;transition:all .15s}
+.station-nav a:hover{background:var(--border);color:var(--text)}
+.station-nav a.active{border-color:var(--station);color:var(--station);background:rgba(52,152,219,.08)}
+.stat{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:9px 18px;text-align:center}
+.stat-val{font-size:26px;font-weight:700;line-height:1;color:var(--station)}
+.stat-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-top:2px}
+.sound-toggle{background:var(--bg-card);border:1px solid var(--border);color:var(--text);padding:11px 16px;border-radius:var(--radius);cursor:pointer;font-size:14px;white-space:nowrap}
+.sound-toggle:hover{background:var(--border)}
+.sound-toggle.muted{color:var(--status-new);border-color:var(--status-new)}
+#firebaseStatus{font-size:11px;padding:4px 10px;border-radius:8px;background:#e74c3c22;color:#e74c3c;border:1px solid #e74c3c44;white-space:nowrap}
+
+/* ---------- Masonry-Layout (lückenlos, hält Druck aus) ----------
+   CSS-Spalten packen die unterschiedlich hohen Karten dicht von oben
+   nach unten — kein vertikaler Leerraum, mehr Bestellungen pro Bildschirm. */
+.orders-grid{column-width:320px;column-gap:14px;padding:16px 20px;padding-bottom:max(20px,env(safe-area-inset-bottom));padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right))}
+.empty-state{column-span:all}
+
+/* ---------- Professionelle Karte ---------- */
+.order-card{position:relative;background:linear-gradient(180deg,#141d27 0%,#0f161e 100%);border:1px solid var(--border);border-left:5px solid var(--station);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 4px 16px rgba(0,0,0,.4);break-inside:avoid;-webkit-column-break-inside:avoid;page-break-inside:avoid;margin-bottom:14px}
+.order-card.age-warn{border-left-color:var(--status-preparing)}
+.order-card.age-hot{border-left-color:#e67e22;border-color:rgba(230,126,34,.35)}
+.order-card.age-crit{border-left-color:var(--status-new);border-color:rgba(231,76,60,.5);animation:cardPulse 1.6s ease infinite}
+@keyframes cardPulse{0%,100%{box-shadow:0 4px 16px rgba(0,0,0,.4)}50%{box-shadow:0 0 0 3px rgba(231,76,60,.28),0 4px 16px rgba(0,0,0,.4)}}
+.card-header{padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.28)}
+.order-number{font-size:23px;font-weight:800;letter-spacing:-.5px;color:var(--station)}
+.order-time{font-size:12px;color:var(--text-secondary);margin-top:1px;font-weight:500}
+.card-timer{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--text-secondary)}
+.card-timer.age-warn{color:var(--status-preparing)}
+.card-timer.age-hot{color:#e67e22}
+.card-timer.age-crit{color:var(--status-new);animation:dlPulse 1s ease infinite}
+
+.deadline-banner{text-align:center;padding:7px 12px;font-size:13px;font-weight:700;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:6px}
+.deadline-banner.ok{background:rgba(46,204,113,.1);color:var(--status-ready)}
+.deadline-banner.near{background:rgba(231,76,60,.12);color:var(--status-new);animation:dlPulse .7s ease infinite}
+.deadline-banner.due{background:var(--status-new);color:#fff;animation:dlPulse .35s ease infinite}
+@keyframes dlPulse{0%,100%{opacity:1}50%{opacity:.6}}
+
+.card-body{padding:8px 14px}
+.order-items-list{list-style:none}
+.order-items-list li{padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:flex-start;gap:10px}
+.order-items-list li:last-child{border-bottom:none}
+.order-items-list li.combo-header{display:block;padding:6px 10px;margin:4px 0 2px;background:rgba(243,156,18,.14);border:1px solid var(--status-preparing);border-radius:8px;color:var(--status-preparing);font-size:13px;font-weight:800}
+.order-items-list li.combo-item{border-left:3px solid rgba(243,156,18,.4);padding-left:10px;background:rgba(243,156,18,.04)}
+.item-qty{background:var(--station);color:#06121d;min-width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;flex-shrink:0}
+.item-info{flex:1;min-width:0}
+.item-name{font-size:17px;font-weight:700;line-height:1.25}
+.item-product-num{color:var(--text-muted);font-size:12px;font-weight:400}
+.item-base{font-size:13px;color:#cdd9e3;font-weight:500;line-height:1.4;margin-top:2px;display:flex;gap:5px;align-items:flex-start}
+.item-base .ib-icon{flex-shrink:0;opacity:.8}
+.item-size{font-size:13px;color:var(--accent);font-weight:600;margin-top:3px}
+.item-modifiers{font-size:12px;color:var(--text-secondary);margin-top:4px;line-height:1.5}
+.mod-group{margin-top:3px;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
+.mod-label{font-weight:700;font-size:11px;color:var(--text);text-transform:uppercase;letter-spacing:.5px;margin-right:2px}
+.mod-group.g-belag .mod-label{color:var(--status-ready)}
+.mod-group.g-extra .mod-label{color:var(--status-new)}
+.mod-group.g-special .mod-label{color:var(--status-preparing)}
+.item-modifiers span.mod-val{display:inline-block;background:rgba(255,255,255,.1);padding:2px 8px;border-radius:6px;font-weight:600;color:var(--text)}
+.mod-group.g-belag span.mod-val{background:rgba(46,204,113,.16);color:#7fe6a8}
+.mod-group.g-extra span.mod-val{background:rgba(231,76,60,.18);color:#f5998f}
+.mod-group.g-special span.mod-val{background:rgba(243,156,18,.16);color:#f3c074}
+.item-notes{font-size:12px;color:var(--status-preparing);font-weight:600;margin-top:3px;font-style:italic}
+
+.card-actions{padding:10px 14px 14px;margin-top:auto}
+.btn-station-ready{width:100%;padding:14px;border:none;border-radius:10px;font-size:17px;font-weight:800;cursor:pointer;background:var(--status-ready);color:#04210f;text-transform:uppercase;letter-spacing:.5px}
+.btn-station-ready:active{filter:brightness(.9)}
+
+.empty-state{grid-column:1/-1;text-align:center;padding:80px 20px}
+.empty-state .icon{font-size:72px;margin-bottom:16px;opacity:.3}
+.empty-state h2{font-size:24px;color:var(--text-secondary);margin-bottom:8px}
+.empty-state p{color:var(--text-muted);font-size:14px}
+
+@media(max-width:768px){.orders-grid{grid-template-columns:1fr;padding:12px}.topbar{padding:10px 16px}.topbar h1{font-size:19px}.topbar-time{font-size:22px}}

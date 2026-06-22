@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Schad K&uuml;che">
+<meta name="theme-color" content="#0d141e">
+<link rel="icon" type="image/png" href="../assets/kitchen-icon-192.png">
+<title>PIZZA SCHAD - K&uuml;che (Kochen)</title>
+<link rel="stylesheet" href="station.css">
+<style>:root{--station:#f39c12}</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <h1>🍳 <span style="color:var(--station);font-size:24px;font-weight:800">KÜCHE</span><span> | Pasta &amp; Kochen</span></h1>
+    <nav class="station-nav">
+      <a href="index.html">Alle</a>
+      <a href="pizza.html">🍕 Pizza</a>
+      <a href="salat.html">🥗 Salat &amp; Burger</a>
+      <a href="kochen.html" class="active">🍳 Küche</a>
+    </nav>
+  </div>
+  <div class="topbar-right">
+    <div class="stat"><div class="stat-val" id="countNew">0</div><div class="stat-label">Offen</div></div>
+    <button class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔊 Ton an</button>
+    <span id="firebaseStatus" title="Firebase">Offline</span>
+    <div class="topbar-time" id="clock">00:00:00</div>
+  </div>
+</div>
+<div class="orders-grid" id="ordersGrid">
+  <div class="empty-state"><div class="icon">🍳</div><h2>Keine Gerichte</h2><p>Neue Bestellungen erscheinen hier in Echtzeit</p></div>
+</div>
+<script>window.STATION = { id:'kochen', title:'Küche', icon:'🍳', empty:'Keine Gerichte offen' };</script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="station.js"></script>
+</body>
+</html>

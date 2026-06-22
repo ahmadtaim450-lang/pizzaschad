@@ -2,7 +2,15 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Schad K&uuml;che">
+<meta name="theme-color" content="#0d141e">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/kitchen-icon-180.png">
+<link rel="icon" type="image/png" href="../assets/kitchen-icon-192.png">
 <title>PIZZA SCHAD - K&uuml;che</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -31,8 +39,8 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .sound-toggle:hover,.time-filter:hover{background:var(--border)}
 .sound-toggle.muted{color:var(--status-new);border-color:var(--status-new)}
 .time-filter.active{border-color:var(--status-preparing);color:var(--status-preparing);font-weight:700}
-.orders-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px;padding:20px 28px;align-items:start}
-.order-card{background:var(--bg-card);border:2px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .3s}
+.orders-grid{column-width:360px;column-gap:16px;padding:20px 28px}
+.order-card{background:var(--bg-card);border:2px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .3s;break-inside:avoid;-webkit-column-break-inside:avoid;page-break-inside:avoid;margin-bottom:16px}
 .order-card.status-NEW{border-color:var(--status-new)}
 .order-card.status-PREPARING{border-color:var(--status-preparing)}
 .order-card.status-READY{border-color:var(--status-ready);opacity:.85}
@@ -66,11 +74,11 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .mod-group{margin-top:4px;display:flex;flex-wrap:wrap;align-items:center;gap:4px}
 .mod-label{font-weight:700;font-size:12px;color:var(--text);text-transform:uppercase;letter-spacing:.5px;margin-right:2px}
 .mod-group.g-belag .mod-label{color:var(--status-ready)}
-.mod-group.g-extra .mod-label{color:var(--accent)}
+.mod-group.g-extra .mod-label{color:var(--status-new)}
 .mod-group.g-special .mod-label{color:var(--status-preparing)}
 .item-modifiers span.mod-val{display:inline-block;background:rgba(255,255,255,.1);padding:3px 9px;border-radius:6px;font-weight:600;color:var(--text)}
 .mod-group.g-belag span.mod-val{background:rgba(46,204,113,.16);color:#7fe6a8}
-.mod-group.g-extra span.mod-val{background:rgba(52,152,219,.16);color:#7fc4ec}
+.mod-group.g-extra span.mod-val{background:rgba(231,76,60,.18);color:#f5998f}
 .mod-group.g-special span.mod-val{background:rgba(243,156,18,.16);color:#f3c074}
 .item-notes{font-size:13px;color:var(--status-preparing);font-weight:600;margin-top:4px;font-style:italic}
 .card-timer{text-align:center;padding:12px;font-size:30px;font-weight:700;color:var(--text);border-top:1px solid var(--border);font-variant-numeric:tabular-nums;transition:color .3s;background:rgba(0,0,0,.15)}
@@ -85,43 +93,118 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .btn-ready:hover{background:var(--status-ready);color:#000}
 .btn-new{background:rgba(231,76,60,.15);color:var(--status-new);border:1px solid var(--status-new)}
 .btn-new:hover{background:var(--status-new);color:#fff}
-.empty-state{grid-column:1/-1;text-align:center;padding:80px 20px}
+.empty-state{column-span:all;text-align:center;padding:80px 20px}
 .empty-state .icon{font-size:72px;margin-bottom:16px;opacity:.3}
 .empty-state h2{font-size:24px;color:var(--text-secondary);margin-bottom:8px}
 .empty-state p{color:var(--text-muted);font-size:14px}
 .timestamp{font-size:10px;color:var(--text-muted);text-align:right;padding:4px 22px 8px}
-@media(max-width:768px){.orders-grid{grid-template-columns:1fr;padding:12px}.topbar{padding:10px 16px}.topbar h1{font-size:18px}.topbar-time{font-size:24px}.stat-val{font-size:22px}}
+.station-nav{display:flex;gap:8px;flex-wrap:wrap}
+.station-nav a{text-decoration:none;background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);padding:8px 13px;border-radius:10px;font-size:13px;font-weight:700;transition:all .15s;white-space:nowrap}
+.station-nav a:hover{background:var(--border);color:var(--text)}
+.station-nav a.active{border-color:var(--status-ready);color:var(--status-ready);background:rgba(46,204,113,.08)}
+.station-progress{display:flex;gap:8px;flex-wrap:wrap;padding:10px 22px;border-bottom:1px solid var(--border);background:rgba(0,0,0,.12)}
+.sp-chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;padding:5px 11px;border-radius:20px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--text-secondary)}
+.sp-chip.done{border-color:var(--status-ready);color:var(--status-ready);background:rgba(46,204,113,.12)}
+.sp-chip.pending{border-color:var(--status-preparing);color:var(--status-preparing);background:rgba(243,156,18,.1)}
+.ready-ribbon{padding:10px 22px;font-size:14px;font-weight:800;letter-spacing:.3px;color:#04210f;background:linear-gradient(90deg,#2ecc71,#27ae60);border-bottom:1px solid var(--border);text-align:center}
+.insgesamt{margin:16px 28px 0;background:linear-gradient(135deg,#1a1208,#15110a);border:1px solid #4a3a1e;border-left:5px solid var(--status-preparing);border-radius:14px;padding:14px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;box-shadow:0 4px 16px rgba(0,0,0,.35)}
+.insgesamt .ins-title{display:flex;flex-direction:column;gap:2px;padding-right:18px;border-right:1px solid #4a3a1e}
+.insgesamt .ins-title b{font-size:18px;font-weight:800;color:var(--status-preparing);letter-spacing:.3px}
+.insgesamt .ins-title small{font-size:11px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px}
+.insgesamt .ins-sizes{display:flex;gap:12px;flex-wrap:wrap;flex:1}
+.ins-size{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:84px;padding:10px 16px;background:rgba(243,156,18,.1);border:1px solid rgba(243,156,18,.4);border-radius:12px}
+.ins-size .ins-count{font-size:30px;font-weight:800;line-height:1;color:#f3c074;font-variant-numeric:tabular-nums}
+.ins-size .ins-label{font-size:13px;font-weight:700;color:var(--text);margin-top:4px}
+.insgesamt .ins-total{display:flex;flex-direction:column;align-items:center;justify-content:center;padding-left:18px;border-left:1px solid #4a3a1e}
+.insgesamt .ins-total b{font-size:34px;font-weight:800;line-height:1;color:var(--text)}
+.insgesamt .ins-total small{font-size:11px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
+@media(max-width:768px){.insgesamt{margin:12px}}
+.order-card.all-ready{border-color:var(--status-ready);box-shadow:0 0 0 2px rgba(46,204,113,.35),0 6px 22px rgba(46,204,113,.12)}
+@media(max-width:768px){.orders-grid{column-width:auto;column-count:1;padding:12px}.topbar{padding:10px 16px}.topbar h1{font-size:18px}.topbar-time{font-size:24px}.stat-val{font-size:22px}}
+
+/* ============ iPad / Touch-Optimierung ============ */
+html{height:-webkit-fill-available}
+body{min-height:100vh;min-height:-webkit-fill-available;-webkit-overflow-scrolling:touch}
+*{-webkit-tap-highlight-color:transparent}
+button,.sound-toggle,.time-filter,.card-actions button{touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.orders-grid{-webkit-overflow-scrolling:touch}
+/* Safe-Area (Notch / Home-Indicator) */
+.topbar{padding-top:max(14px,env(safe-area-inset-top));flex-wrap:wrap;gap:10px}
+.topbar-right{flex-wrap:wrap;justify-content:flex-end}
+.orders-grid{padding-bottom:max(20px,env(safe-area-inset-bottom));padding-left:max(28px,env(safe-area-inset-left));padding-right:max(28px,env(safe-area-inset-right))}
+/* Größere Touch-Ziele */
+.card-actions button{padding:15px 12px;font-size:15px}
+.sound-toggle,.time-filter{padding:11px 16px;font-size:14px}
+/* iPad Hochformat: 2 Spalten beibehalten, Topbar kompakt */
+@media(min-width:769px) and (max-width:900px){
+  .topbar h1 span{display:none}
+  .topbar-time{font-size:26px}
+  .orders-grid{column-width:330px}
+}
 </style>
 </head>
 <body>
 <div class="topbar">
-  <div class="topbar-left"><h1>PIZZA SCHAD<span> | K&uuml;chenanzeige</span></h1></div>
+  <div class="topbar-left">
+    <h1>PIZZA SCHAD<span> | K&uuml;chenanzeige</span></h1>
+    <nav class="station-nav">
+      <a href="index.html" class="active">Alle</a>
+      <a href="pizza.html">🍕 Pizza</a>
+      <a href="salat.html">🥗 Salat &amp; Burger</a>
+      <a href="kochen.html">🍳 Küche</a>
+    </nav>
+  </div>
   <div class="topbar-right">
     <div class="stats">
       <div class="stat new"><div class="stat-val" id="countNew">0</div><div class="stat-label">Neu</div></div>
-      <div class="stat preparing"><div class="stat-val" id="countPreparing">0</div><div class="stat-label">In Arbeit</div></div>
-      <div class="stat ready"><div class="stat-val" id="countReady">0</div><div class="stat-label">Fertig</div></div>
     </div>
     <button class="sound-toggle" id="soundToggle" onclick="toggleSound()">🔊 Ton an</button>
-    <button class="time-filter" id="timeFilter" onclick="cycleTimeFilter()">⏰ Alle</button>
+    <span id="firebaseStatus" style="font-size:11px;padding:4px 10px;border-radius:8px;background:#e74c3c22;color:#e74c3c;border:1px solid #e74c3c44;white-space:nowrap" title="Firebase nicht verbunden">Offline</span>
     <div class="topbar-time" id="clock">00:00:00</div>
   </div>
 </div>
+<div class="insgesamt" id="insgesamt" style="display:none"></div>
 <div class="orders-grid" id="ordersGrid">
   <div class="empty-state"><div class="icon">🍳</div><h2>Keine aktiven Bestellungen</h2><p>Neue Bestellungen erscheinen hier in Echtzeit</p></div>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script>
-const STORAGE_KEY = 'tana-orders';
 let knownOrderIds = new Set();
 let soundEnabled = true;
+let audioUnlocked = false;
 let orders = {};
 let timeFilter = null;
-let deadlineAlertsFired = {}; // track which deadlines already alerted
+let deadlineAlertsFired = {};
+let db = null;
+let firebaseUnsubscribe = null;
 
-// Menu lookup: maps productId AND productNumber -> base ingredients (menu description),
-// so the kitchen sees what's in each dish without the cashier having to embed it.
+const firebaseConfig = {
+  apiKey: "AIzaSyDH-UQwNv4t0Xafz8-ARZjyr69k9VHVlDI",
+  authDomain: "schad-62da7.firebaseapp.com",
+  projectId: "schad-62da7",
+  storageBucket: "schad-62da7.firebasestorage.app",
+  messagingSenderId: "331626315267",
+  appId: "1:331626315267:web:30bf0cc377186b32131836"
+};
+try {
+  if (typeof firebase === 'undefined') throw new Error('Firebase SDK not loaded');
+  firebase.initializeApp(firebaseConfig);
+  db = firebase.firestore();
+  console.log('Firebase connected successfully');
+  var statusEl = document.getElementById('firebaseStatus');
+  if (statusEl) { statusEl.textContent = 'Online'; statusEl.style.background = '#2ecc7122'; statusEl.style.color = '#2ecc71'; statusEl.style.borderColor = '#2ecc7144'; statusEl.title = 'Firebase verbunden'; }
+} catch(e) {
+  console.error('Firebase init FAILED:', e.message || e);
+  var statusEl = document.getElementById('firebaseStatus');
+  if (statusEl) { statusEl.textContent = 'Offline'; statusEl.title = 'Firebase Fehler: ' + (e.message || e); }
+  document.getElementById('ordersGrid').innerHTML = '<div class="empty-state"><div class="icon">❌</div><h2>Firebase nicht verbunden</h2><p>Bitte Seite neu laden (Ctrl+Shift+R)</p></div>';
+}
+
+// Menu lookup
 let menuDesc = {};
+let menuCat = {};
 function loadMenu() {
   fetch('../firebase/menu-data.json')
     .then(function(r){ return r.json(); })
@@ -129,13 +212,12 @@ function loadMenu() {
       var prods = (data && data.products) || [];
       prods.forEach(function(p){
         var d = (p.description == null ? '' : String(p.description)).trim();
-        if (!d) return;
-        if (p.id) menuDesc['id:'+p.id] = d;
-        if (p.productNumber != null) menuDesc['num:'+String(p.productNumber)] = d;
+        if (p.id){ if (d) menuDesc['id:'+p.id] = d; if (p.category) menuCat['id:'+p.id] = p.category; }
+        if (p.productNumber != null){ if (d) menuDesc['num:'+String(p.productNumber)] = d; if (p.category) menuCat['num:'+String(p.productNumber)] = p.category; }
       });
       renderAllOrders();
     })
-    .catch(function(){ /* menu optional; cards still work without base ingredients */ });
+    .catch(function(){});
 }
 function getItemIngredients(item) {
   if (!item) return '';
@@ -143,9 +225,102 @@ function getItemIngredients(item) {
   if (item.productNumber != null && menuDesc['num:'+String(item.productNumber)]) return menuDesc['num:'+String(item.productNumber)];
   return '';
 }
+function getItemCategory(item) {
+  if (!item) return '';
+  if (item.productId && menuCat['id:'+item.productId]) return menuCat['id:'+item.productId];
+  if (item.productNumber != null && menuCat['num:'+String(item.productNumber)]) return menuCat['num:'+String(item.productNumber)];
+  return '';
+}
 
-function getOrders() { try{return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');}catch(e){return[];} }
-function saveOrders(o) { localStorage.setItem(STORAGE_KEY, JSON.stringify(o)); }
+// ---- Stations-Zuordnung (identisch zu station.js) ----
+var CAT_STATION = {
+  pizza:'pizza', salate:'salat', burger:'salat',
+  lasagne:'kochen', pasta:'kochen', gnocchi:'kochen', schnitzel:'kochen',
+  mexikanisch:'kochen', enchiladas:'kochen', gegrilltes:'kochen',
+  pakistanisch:'kochen', fingerfood:'kochen', getraenke:null, extras:null
+};
+var STATION_META = { pizza:{icon:'🍕',label:'Pizza'}, salat:{icon:'🥗',label:'Salat/Burger'}, kochen:{icon:'🍳',label:'Küche'} };
+function nameStation(name){
+  var n = String(name||'').toLowerCase();
+  if (/pizza/.test(n)) return 'pizza';
+  if (/salat|burger/.test(n)) return 'salat';
+  if (/cola|fanta|sprite|wasser|getr|saft|limo|\b0[.,]\d|\b1\s?l\b/.test(n)) return null;
+  return 'kochen';
+}
+function itemStation(item){
+  if (!item) return null;
+  if (item.combo && item.combo.isPizza) return 'pizza';
+  var cat = getItemCategory(item);
+  if (cat && Object.prototype.hasOwnProperty.call(CAT_STATION, cat)) return CAT_STATION[cat];
+  return nameStation(item.name);
+}
+function stationsNeededList(order){
+  var set = {};
+  (order.items||[]).forEach(function(it){ var s = itemStation(it); if (s) set[s] = true; });
+  return Object.keys(set);
+}
+function allStationsDone(order){
+  var needed = stationsNeededList(order);
+  if (needed.length === 0) return false;
+  var done = order.stationsDone || [];
+  return needed.every(function(s){ return done.indexOf(s) >= 0; });
+}
+function renderStationProgress(order){
+  var needed = stationsNeededList(order);
+  if (needed.length === 0) return '';
+  var done = order.stationsDone || [];
+  var ready = allStationsDone(order) ? '<div class="ready-ribbon">✅ كل المحطات خلّصت — جاهز للتقديم</div>' : '';
+  if (needed.length <= 1) return ready;
+  var order2 = ['pizza','salat','kochen'].filter(function(s){ return needed.indexOf(s) >= 0; });
+  return '<div class="station-progress">' + order2.map(function(s){
+    var m = STATION_META[s], isDone = done.indexOf(s) >= 0;
+    return '<span class="sp-chip '+(isDone?'done':'pending')+'">'+m.icon+' '+m.label+' '+(isDone?'✓':'⏳')+'</span>';
+  }).join('') + '</div>' + ready;
+}
+
+// ---- Insgesamt: Pizza-Teig nach Größe (ohne Sorte) für den Teig-Verantwortlichen ----
+var PIZZA_SIZE_ORDER = ['klein','gross','xl','familie','party'];
+var PIZZA_SIZE_LABEL = { klein:'Klein', gross:'Groß', xl:'XL', familie:'Familie', party:'Party' };
+function itemSizeKey(item){
+  var s = item && item.size;
+  if (!s) return { key:'standard', label:'Standard' };
+  var id = String(s.id||'').toLowerCase().trim();
+  if (id && PIZZA_SIZE_LABEL[id]) return { key:id, label:PIZZA_SIZE_LABEL[id] };
+  var name = String(s.name||'').trim(), lname = name.toLowerCase();
+  if (PIZZA_SIZE_LABEL[lname]) return { key:lname, label:PIZZA_SIZE_LABEL[lname] };
+  return { key:(id||lname||'standard'), label:(name||id||'Standard') };
+}
+function computePizzaTotals(list){
+  var buckets = {}, total = 0;
+  list.forEach(function(o){
+    (o.items||[]).forEach(function(it){
+      if (itemStation(it) !== 'pizza') return;
+      var qty = it.quantity||1, sz = itemSizeKey(it);
+      if (!buckets[sz.key]) buckets[sz.key] = { label:sz.label, count:0 };
+      buckets[sz.key].count += qty;
+      total += qty;
+    });
+  });
+  return { buckets:buckets, total:total };
+}
+function renderInsgesamt(list){
+  var el = document.getElementById('insgesamt');
+  if (!el) return;
+  var res = computePizzaTotals(list);
+  if (res.total === 0){ el.style.display = 'none'; el.innerHTML = ''; return; }
+  var keys = Object.keys(res.buckets).sort(function(a,b){
+    var ia = PIZZA_SIZE_ORDER.indexOf(a), ib = PIZZA_SIZE_ORDER.indexOf(b);
+    return (ia<0?99:ia) - (ib<0?99:ib);
+  });
+  var sizes = keys.map(function(k){
+    var b = res.buckets[k];
+    return '<div class="ins-size"><div class="ins-count">'+b.count+'</div><div class="ins-label">'+b.label+'</div></div>';
+  }).join('');
+  el.innerHTML = '<div class="ins-title"><b>🍕 Insgesamt</b><small>Teig · العجين</small></div>'
+    + '<div class="ins-sizes">'+sizes+'</div>'
+    + '<div class="ins-total"><b>'+res.total+'</b><small>Pizzen gesamt</small></div>';
+  el.style.display = 'flex';
+}
 
 setInterval(()=>{document.getElementById('clock').textContent=new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',second:'2-digit'});},1000);
 document.getElementById('clock').textContent=new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
@@ -173,41 +348,47 @@ function getOrderAgeMinutes(order) {
   return Math.floor((Date.now() - new Date(order.createdAt).getTime()) / 60000);
 }
 
+var audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
+  return audioCtx;
+}
+
 function playAlertSound(repeat) {
-  if(!soundEnabled)return;
+  if(!soundEnabled || !audioUnlocked) return;
   try{
-    const ctx=new(window.AudioContext||window.webkitAudioContext)();
-    const reps = repeat || 3;
-    for(let r=0; r<reps; r++){
-      const offset = r * 1.2;
-      const st = ctx.currentTime + offset;
-      for(let i=0;i<3;i++){
-        const t=st+i*.15;
-        const o=ctx.createOscillator(),g=ctx.createGain();
+    var ctx = getAudioCtx();
+    var reps = repeat || 3;
+    for(var r=0; r<reps; r++){
+      var offset = r * 1.2;
+      var st = ctx.currentTime + offset;
+      for(var i=0;i<3;i++){
+        var t=st+i*.15;
+        var o=ctx.createOscillator(),g=ctx.createGain();
         o.connect(g);g.connect(ctx.destination);
         o.frequency.value=1000;o.type='square';
         g.gain.setValueAtTime(.7,t);g.gain.linearRampToValueAtTime(.001,t+.12);
         o.start(t);o.stop(t+.13);
       }
     }
-    setTimeout(()=>ctx.close(),(reps*1.2+1)*1000);
   }catch(e){}
 }
 
 function playNotificationSound() {
-  if(!soundEnabled)return;
+  if(!soundEnabled || !audioUnlocked) return;
   try{
-    const ctx=new(window.AudioContext||window.webkitAudioContext)();
-    const D=4,BL=.15,G=.1,st=ctx.currentTime;
-    for(let i=0;i<D/(BL+G);i++){
-      const t=st+i*(BL+G);
-      const o=ctx.createOscillator(),g=ctx.createGain();
+    var ctx = getAudioCtx();
+    var D=4,BL=.15,G=.1,st=ctx.currentTime;
+    for(var i=0;i<D/(BL+G);i++){
+      var t=st+i*(BL+G);
+      var o=ctx.createOscillator(),g=ctx.createGain();
       o.connect(g);g.connect(ctx.destination);
       o.frequency.value=i%2===0?880:660;o.type='square';
       g.gain.setValueAtTime(.6,t);g.gain.linearRampToValueAtTime(.001,t+BL);
       o.start(t);o.stop(t+BL+.01);
     }
-    setTimeout(()=>ctx.close(),(D+1)*1000);
   }catch(e){}
 }
 
@@ -277,15 +458,20 @@ setInterval(()=>{
   checkDeadlineAlerts();
 },1000);
 
-function changeStatus(orderId, newStatus) {
-  const all=getOrders();
-  const i=all.findIndex(o=>o.id===orderId);
-  if(i===-1)return;
-  all[i].status=newStatus;all[i].updatedAt=new Date().toISOString();
-  if(newStatus==='READY')all[i].completedAt=new Date().toISOString();
-  saveOrders(all);
-  if(orders[orderId]){orders[orderId].status=newStatus;orders[orderId].updatedAt=all[i].updatedAt;}
-  renderAllOrders();
+function markReady(orderId) {
+  if (!db) return;
+  db.collection('orders').doc(orderId).update({
+    status: 'READY',
+    updatedAt: firebase.firestore.Timestamp.now(),
+    completedAt: firebase.firestore.Timestamp.now()
+  }).then(function() {
+    console.log('Order marked ready:', orderId);
+    delete orders[orderId];
+    knownOrderIds.delete(orderId);
+    renderAllOrders();
+  }).catch(function(e) {
+    console.error('Firebase update error:', e);
+  });
 }
 
 // Map raw group keys (combo machine-keys OR product modifier names) to a clean label + css class.
@@ -385,53 +571,51 @@ function renderOrderCard(order) {
   }
 
   const hasDeadlineClass = order.deadline ? ' has-deadline' : '';
+  const readyClass = allStationsDone(order) ? ' all-ready' : '';
 
-  return '<div class="order-card status-'+order.status+hasDeadlineClass+'" id="card-'+order.id+'">'
+  return '<div class="order-card status-'+order.status+hasDeadlineClass+readyClass+'" id="card-'+order.id+'">'
     +'<div class="card-header status-'+order.status+'">'
     +'<div><div class="order-number">'+order.orderNumber+'</div><div class="order-time">'+new Date(ts).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})+' Uhr</div></div>'
     +'<span class="status-badge">'+order.status+'</span>'
     +'</div>'
+    +renderStationProgress(order)
     +deadlineHtml
     +'<div class="card-body"><ul class="order-items-list">'
     +renderItemsList(items)
     +'</ul></div>'
     +'<div class="card-timer'+ageClass+'" data-timestamp="'+ts+'">⏱ '+formatTimeAgo(ts)+'</div>'
     +'<div class="card-actions">'
-    +(order.status==='NEW'?'<button class="btn-preparing" onclick="changeStatus(\''+order.id+'\',\'PREPARING\')">▶ In Arbeit</button><button class="btn-ready" onclick="changeStatus(\''+order.id+'\',\'READY\')">✓ Fertig</button>':'')
-    +(order.status==='PREPARING'?'<button class="btn-new" onclick="changeStatus(\''+order.id+'\',\'NEW\')">← Zur&uuml;ck</button><button class="btn-ready" onclick="changeStatus(\''+order.id+'\',\'READY\')">✓ Fertig</button>':'')
+    +'<button class="btn-ready" onclick="markReady(\''+order.id+'\')" style="flex:1;padding:14px;border:none;border-radius:10px;font-size:16px;font-weight:800;cursor:pointer;background:#2ecc71;color:#000;text-transform:uppercase;letter-spacing:.5px">✓ جاهز</button>'
     +'</div>'
-    +'<div class="timestamp">ID: '+order.id+'</div>'
     +'</div>';
 }
 
 function renderAllOrders() {
   const grid=document.getElementById('ordersGrid');
+  // Insgesamt/Teig: immer über ALLE aktiven Bestellungen (unabhängig vom Zeitfilter)
+  renderInsgesamt(Object.values(orders));
   let list=Object.values(orders);
   if(timeFilter){list=list.filter(o=>getOrderAgeMinutes(o)>=timeFilter);}
 
-  const so={'NEW':0,'PREPARING':1,'READY':2};
-  list.sort((a,b)=>{const sa=so[a.status]??3,sb=so[b.status]??3;if(sa!==sb)return sa-sb;return new Date(b.createdAt).getTime()-new Date(a.createdAt).getTime();});
+  list.sort(function(a,b){return new Date(b.createdAt).getTime()-new Date(a.createdAt).getTime();});
 
-  document.getElementById('countNew').textContent=list.filter(o=>o.status==='NEW').length;
-  document.getElementById('countPreparing').textContent=list.filter(o=>o.status==='PREPARING').length;
-  document.getElementById('countReady').textContent=list.filter(o=>o.status==='READY').length;
+  document.getElementById('countNew').textContent=list.length;
 
   if(list.length===0){
-    const msg=timeFilter?'Keine Bestellungen > '+timeFilter+' min':'Keine aktiven Bestellungen';
+    var msg=timeFilter?'Keine Bestellungen > '+timeFilter+' min':'Keine aktiven Bestellungen';
     grid.innerHTML='<div class="empty-state"><div class="icon">🍳</div><h2>'+msg+'</h2><p>Neue Bestellungen erscheinen hier in Echtzeit</p></div>';
     return;
   }
   grid.innerHTML=list.map(renderOrderCard).join('');
 }
 
-function loadOrdersFromStorage() {
-  const all=getOrders();
-  const active=['NEW','PREPARING'];
-  const newOrders={};
-  all.forEach(order=>{
-    if(active.includes(order.status)){
-      newOrders[order.id]=order;
-      if(!knownOrderIds.has(order.id)){playNotificationSound();}
+function processOrdersData(ordersList) {
+  var prevIds = new Set(Object.keys(orders));
+  var newOrders={};
+  ordersList.forEach(function(order){
+    newOrders[order.id]=order;
+    if(order.status==='NEW' && !prevIds.has(order.id)){
+      playNotificationSound();
     }
   });
   knownOrderIds=new Set(Object.keys(newOrders));
@@ -439,10 +623,104 @@ function loadOrdersFromStorage() {
   renderAllOrders();
 }
 
-window.addEventListener('storage',e=>{if(e.key===STORAGE_KEY)loadOrdersFromStorage();});
+function startFirebaseListener() {
+  if (!db) return false;
+  try {
+    firebaseUnsubscribe = db.collection('orders')
+      .where('status', '==', 'NEW')
+      .onSnapshot(function(snapshot) {
+        var ordersList = [];
+        snapshot.forEach(function(doc) {
+          var data = doc.data();
+          ordersList.push({
+            id: doc.id,
+            orderNumber: data.orderNumber || '',
+            status: data.status || 'NEW',
+            items: data.items || [],
+            deadline: data.deadline || null,
+            stationsDone: data.stationsDone || [],
+            createdAt: data.createdAt ? (data.createdAt.toDate ? data.createdAt.toDate().toISOString() : data.createdAt) : new Date().toISOString(),
+            updatedAt: data.updatedAt ? (data.updatedAt.toDate ? data.updatedAt.toDate().toISOString() : data.updatedAt) : new Date().toISOString(),
+            completedAt: null
+          });
+        });
+        processOrdersData(ordersList);
+      }, function(error) {
+        console.error('Firestore listener error:', error);
+        var statusEl = document.getElementById('firebaseStatus');
+        if (statusEl) { statusEl.textContent = 'Error'; statusEl.style.background = '#e74c3c22'; statusEl.style.color = '#e74c3c'; statusEl.title = error.message; }
+      });
+    console.log('Firebase listener started - watching NEW orders');
+    return true;
+  } catch(e) {
+    console.error('Failed to start Firebase listener:', e);
+    return false;
+  }
+}
+
 loadMenu();
-loadOrdersFromStorage();
-setInterval(loadOrdersFromStorage,2000);
+
+function unlockAudioNow() {
+  if (audioUnlocked) return;
+  try {
+    var ctx = getAudioCtx();
+    if (ctx.state === 'suspended') { ctx.resume(); }
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.frequency.value = 800;
+    osc.type = 'sine';
+    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.15);
+    audioUnlocked = true;
+    console.log('Audio unlocked, state:', ctx.state);
+  } catch(e) { console.error('Audio unlock failed:', e); }
+}
+document.addEventListener('click', unlockAudioNow);
+document.addEventListener('touchend', unlockAudioNow);
+
+if (db) {
+  if (!startFirebaseListener()) {
+    document.getElementById('ordersGrid').innerHTML = '<div class="empty-state"><div class="icon">❌</div><h2>Firebase Fehler</h2><p>Listener konnte nicht gestartet werden</p></div>';
+  }
+} else {
+  document.getElementById('ordersGrid').innerHTML = '<div class="empty-state"><div class="icon">❌</div><h2>Firebase nicht verbunden</h2><p>Bitte Seite neu laden (Ctrl+Shift+R)</p></div>';
+}
+</script>
+
+<!-- ==================== PWA (Installierbar) ==================== -->
+<button id="pwaInstall" style="display:none;position:fixed;left:16px;bottom:max(16px,env(safe-area-inset-bottom));z-index:130;background:var(--status-ready);color:#04210f;border:none;border-radius:24px;padding:13px 20px;font-size:14px;font-weight:800;box-shadow:0 6px 20px rgba(0,0,0,.45);cursor:pointer">⬇️ App installieren</button>
+<script>
+(function(){
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+  }
+  var deferred = null;
+  var btn = document.getElementById('pwaInstall');
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; if (btn) btn.style.display = 'block'; });
+  if (btn) btn.addEventListener('click', function(){
+    if (!deferred) return;
+    deferred.prompt();
+    deferred.userChoice.finally(function(){ deferred = null; btn.style.display = 'none'; });
+  });
+  window.addEventListener('appinstalled', function(){ if (btn) btn.style.display = 'none'; });
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var standalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+  if (isIOS && !standalone && !localStorage.getItem('iosPwaHint_kueche')) {
+    var h = document.createElement('div');
+    h.style.cssText = 'position:fixed;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));z-index:140;background:#111920;border:1px solid #1e2d3d;color:#e8edf2;border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.5;box-shadow:0 8px 32px rgba(0,0,0,.5);display:flex;gap:10px;align-items:center;justify-content:space-between';
+    h.innerHTML = '<span>📲 Als App installieren: <b>Teilen</b>-Symbol antippen → <b>„Zum Home-Bildschirm“</b></span>';
+    var x = document.createElement('button');
+    x.textContent = '✕';
+    x.style.cssText = 'background:none;border:none;color:#7a8fa0;font-size:20px;cursor:pointer;flex-shrink:0;padding:0 4px';
+    x.onclick = function(){ localStorage.setItem('iosPwaHint_kueche','1'); h.remove(); };
+    h.appendChild(x);
+    document.body.appendChild(h);
+  }
+})();
 </script>
 </body>
 </html>

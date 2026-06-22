@@ -2,7 +2,15 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Schad POS">
+<meta name="theme-color" content="#0f1923">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/app-icon-180.png">
+<link rel="icon" type="image/png" href="assets/app-icon-192.png">
 <title>PIZZA SCHAD - POS</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -48,9 +56,28 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f1923;color:#e8edf
     <p>
       Kasse und K&uuml;che sind <strong>in zwei Browser-Tabs</strong> gleichzeitig ge&ouml;ffnet.<br>
       Bestellungen werden <strong>in Echtzeit</strong> zwischen den Tabs synchronisiert.<br>
-      Alle Daten werden lokal im Browser gespeichert (localStorage).
+      Alle Daten werden lokal im Browser gespeichert (localStorage).<br>
+      Jede Seite l&auml;sst sich als <strong>App installieren</strong> (Kasse &amp; K&uuml;che einzeln).
     </p>
   </div>
 </div>
+
+<button id="pwaInstall" style="display:none;position:fixed;left:16px;bottom:16px;z-index:130;background:#3498db;color:#fff;border:none;border-radius:24px;padding:13px 20px;font-size:14px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.45);cursor:pointer">⬇️ App installieren</button>
+<script>
+(function(){
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+  }
+  var deferred = null;
+  var btn = document.getElementById('pwaInstall');
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; if (btn) btn.style.display = 'block'; });
+  if (btn) btn.addEventListener('click', function(){
+    if (!deferred) return;
+    deferred.prompt();
+    deferred.userChoice.finally(function(){ deferred = null; btn.style.display = 'none'; });
+  });
+  window.addEventListener('appinstalled', function(){ if (btn) btn.style.display = 'none'; });
+})();
+</script>
 </body>
 </html>

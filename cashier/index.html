@@ -2,7 +2,15 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Schad Kasse">
+<meta name="theme-color" content="#0f1923">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="../assets/cashier-icon-180.png">
+<link rel="icon" type="image/png" href="../assets/cashier-icon-192.png">
 <title>PIZZA SCHAD - Kasse</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -31,7 +39,7 @@ body{font-family:var(--font);background:var(--bg-primary);color:var(--text-prima
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
 .topbar{padding:14px 24px;background:var(--bg-secondary);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px}
 .search-wrap{flex:1;position:relative;max-width:600px}
-.search-wrap input{width:100%;padding:10px 16px 10px 42px;background:var(--bg-primary);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-primary);font-size:14px;outline:none;transition:var(--transition)}
+.search-wrap input{width:100%;padding:12px 16px 12px 42px;background:var(--bg-primary);border:1px solid var(--border);border-radius:var(--radius);color:var(--text-primary);font-size:16px;outline:none;transition:var(--transition)}
 .search-wrap input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(46,204,113,.15)}
 .search-wrap input::placeholder{color:var(--text-muted)}
 .search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:16px}
@@ -102,7 +110,7 @@ body{font-family:var(--font);background:var(--bg-primary);color:var(--text-prima
 .modifier-chip{padding:6px 12px;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;color:var(--text-secondary);cursor:pointer;font-size:12px;transition:var(--transition);white-space:nowrap}
 .modifier-chip:hover{border-color:var(--accent);color:var(--text-primary)}
 .modifier-chip.selected{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
-.modal-notes{width:100%;padding:10px 14px;background:var(--bg-primary);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:13px;resize:none;outline:none;min-height:60px;font-family:var(--font)}
+.modal-notes{width:100%;padding:12px 14px;background:var(--bg-primary);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text-primary);font-size:16px;resize:none;outline:none;min-height:64px;font-family:var(--font)}
 .modal-notes:focus{border-color:var(--accent)}
 .modal-actions{display:flex;gap:10px;margin-top:16px}
 .modal-actions button{flex:1;padding:12px;border-radius:var(--radius-sm);font-size:14px;font-weight:600;cursor:pointer;transition:var(--transition);border:none}
@@ -116,7 +124,43 @@ body{font-family:var(--font);background:var(--bg-primary);color:var(--text-prima
 .sync-online{background:rgba(46,204,113,.2);color:var(--accent)}
 .sync-offline{background:rgba(243,156,18,.2);color:var(--warning)}
 @media(max-width:1200px){.sidebar{width:60px;min-width:60px}.sidebar-header h1{display:none}.sidebar-header span{display:none}.sidebar-header{padding:12px;text-align:center}.cat-btn{justify-content:center;padding:10px}.cat-btn span:not(.cat-icon){display:none}.order-panel{width:320px;min-width:320px}}
-@media(max-width:900px){.order-panel{position:fixed;right:0;top:0;bottom:0;width:100%;max-width:400px;transform:translateX(100%);transition:transform .3s ease}.order-panel.open{transform:translateX(0)}.product-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
+@media(max-width:900px){.order-panel{position:fixed;right:0;top:0;bottom:0;width:100%;max-width:420px;transform:translateX(100%);transition:transform .3s ease}.order-panel.open{transform:translateX(0)}.product-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}}
+
+/* ============ iPad / Touch-Optimierung ============ */
+html{height:-webkit-fill-available}
+body{height:100vh;height:-webkit-fill-available}
+*{-webkit-tap-highlight-color:transparent}
+button,.cat-btn,.modifier-chip,.size-btn,.product-card,.qty-btn,.edit-btn,.remove-btn,.send-btn,.clear-btn{touch-action:manipulation;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.products-area,.order-items,.sidebar-nav,.modal{-webkit-overflow-scrolling:touch}
+/* Safe-Area (Notch / Home-Indicator) */
+.topbar{padding-top:max(14px,env(safe-area-inset-top))}
+.sidebar-header{padding-top:max(20px,env(safe-area-inset-top))}
+.order-footer{padding-bottom:max(16px,env(safe-area-inset-bottom))}
+/* Größere Touch-Ziele */
+.qty-btn{width:40px;height:40px;font-size:20px}
+.qty-val{width:40px;font-size:16px}
+.edit-btn{padding:8px 12px!important;font-size:12px!important}
+.remove-btn{font-size:20px;padding:4px 8px}
+.modifier-chip{padding:11px 16px;font-size:14px}
+.size-btn{padding:15px 10px;font-size:15px}
+.modal-actions button{padding:15px}
+.cat-btn{padding:13px 14px}
+/* Cart-FAB + Backdrop (nur Hochformat) */
+.cart-fab,.cart-backdrop,.cart-close{display:none}
+@media(max-width:900px){
+  .order-panel{box-shadow:-10px 0 50px rgba(0,0,0,.55);z-index:120}
+  .cart-close{display:flex;align-items:center;justify-content:center;background:none;border:none;color:var(--text-secondary);font-size:24px;cursor:pointer;width:40px;height:40px;border-radius:8px}
+  .cart-close:active{background:var(--bg-hover)}
+  .cart-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:110}
+  .cart-backdrop.show{display:block}
+  .cart-fab{display:flex;align-items:center;justify-content:center;position:fixed;right:18px;bottom:max(18px,env(safe-area-inset-bottom));width:64px;height:64px;border-radius:50%;background:var(--accent);color:#fff;border:none;font-size:26px;box-shadow:0 8px 24px rgba(0,0,0,.45);cursor:pointer;z-index:95}
+  .cart-fab:active{transform:scale(.94)}
+  .cart-fab .fab-badge{position:absolute;top:-2px;right:-2px;min-width:24px;height:24px;padding:0 6px;border-radius:12px;background:var(--danger);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--bg-primary)}
+  .cart-fab .fab-badge.empty{display:none}
+}
+@media(max-width:900px) and (orientation:landscape){
+  .order-panel{max-width:50%}
+}
 </style>
 </head>
 <body>
@@ -137,6 +181,7 @@ body{font-family:var(--font);background:var(--bg-primary);color:var(--text-prima
         <span>Nr.</span>
         <input type="text" id="quickCodeInput" placeholder="#" maxlength="6" autocomplete="off">
       </div>
+      <span id="firebaseStatus" style="font-size:11px;padding:4px 10px;border-radius:8px;background:#e74c3c22;color:#e74c3c;border:1px solid #e74c3c44;white-space:nowrap" title="Firebase nicht verbunden">Offline</span>
       <div class="topbar-time" id="clock">00:00</div>
     </div>
     <div class="products-area" id="productsArea">
@@ -146,7 +191,10 @@ body{font-family:var(--font);background:var(--bg-primary);color:var(--text-prima
   <aside class="order-panel">
     <div class="order-header">
       <h2>🛒 Bestellung</h2>
-      <button class="clear-btn" onclick="clearOrder()">Leeren</button>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="clear-btn" onclick="clearOrder()">Leeren</button>
+        <button class="cart-close" onclick="closeCart()" title="Schließen">✕</button>
+      </div>
     </div>
     <div class="order-items" id="orderItems">
       <div class="order-empty"><div class="empty-icon">📝</div><p>Produkt auswählen<br>oder Nummer eingeben</p></div>
@@ -155,18 +203,22 @@ body{font-family:var(--font);background:var(--bg-primary);color:var(--text-prima
       <div class="order-count">🛒 <strong id="itemCount">0</strong> Positionen</div>
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
         <label style="font-size:12px;color:var(--text-secondary);white-space:nowrap">⏰ Fertig bis:</label>
-        <input type="time" id="deadlineTime" style="flex:1;padding:10px 12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);color:#fff;font-size:15px;font-weight:600;outline:none;cursor:pointer">
+        <input type="time" id="deadlineTime" style="flex:1;padding:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);color:#fff;font-size:16px;font-weight:600;outline:none;cursor:pointer">
         <button onclick="clearDeadline()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;padding:4px" title="Löschen">✕</button>
       </div>
       <button class="send-btn" id="sendBtn" disabled onclick="sendOrder()">➤ AN KÜCHE SENDEN</button>
     </div>
   </aside>
 </div>
+<div class="cart-backdrop" id="cartBackdrop" onclick="closeCart()"></div>
+<button class="cart-fab" id="cartFab" onclick="openCart()" title="Bestellung anzeigen">🛒<span class="fab-badge empty" id="fabBadge">0</span></button>
 <div class="modal-overlay" id="modalOverlay" style="display:none" onclick="if(event.target===this)closeModal()">
   <div class="modal" id="modalContent"></div>
 </div>
 <div id="toastContainer"></div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script>
 // ==================== LOCAL STORAGE ENGINE ====================
 const STORAGE_KEY = 'tana-orders';
@@ -198,13 +250,17 @@ const firebaseConfig = {
   appId: "1:331626315267:web:30bf0cc377186b32131836"
 };
 try {
+  if (typeof firebase === 'undefined') throw new Error('Firebase SDK not loaded');
   firebase.initializeApp(firebaseConfig);
   db = firebase.firestore();
-  db.enablePersistence({synchronizeTabs:true}).catch(()=>{});
   syncMode = 'firebase';
-  document.body.insertAdjacentHTML('beforeend','');
+  console.log('Firebase connected successfully');
+  var statusEl = document.getElementById('firebaseStatus');
+  if (statusEl) { statusEl.textContent = 'Online'; statusEl.style.background = '#2ecc7122'; statusEl.style.color = '#2ecc71'; statusEl.style.borderColor = '#2ecc7144'; statusEl.title = 'Firebase verbunden'; }
 } catch(e) {
-  document.body.insertAdjacentHTML('beforeend','');
+  console.error('Firebase init FAILED:', e.message || e);
+  var statusEl = document.getElementById('firebaseStatus');
+  if (statusEl) { statusEl.textContent = 'Offline'; statusEl.title = 'Firebase Fehler: ' + (e.message || e); }
 }
 
 // ==================== CLOCK ====================
@@ -328,6 +384,18 @@ function renderOrder() {
   }
   document.getElementById('itemCount').textContent = totalItems;
   document.getElementById('sendBtn').disabled = currentOrder.length === 0;
+  const fb = document.getElementById('fabBadge');
+  if (fb) { fb.textContent = totalItems; fb.classList.toggle('empty', totalItems === 0); }
+}
+
+// ===== Warenkorb-Overlay (iPad Hochformat) =====
+function openCart() {
+  document.querySelector('.order-panel').classList.add('open');
+  document.getElementById('cartBackdrop').classList.add('show');
+}
+function closeCart() {
+  document.querySelector('.order-panel').classList.remove('open');
+  document.getElementById('cartBackdrop').classList.remove('show');
 }
 
 // ==================== COMBO DEALS ====================
@@ -615,22 +683,32 @@ async function sendOrder() {
   const order = { id: 'order-' + Date.now(), orderNumber: orderNumber, status: 'NEW', items: items, deadline: deadline, createdAt: now, updatedAt: now, completedAt: null };
 
   if (syncMode === 'firebase' && db) {
-    try { await db.collection('orders').add({...order, createdAt: firebase.firestore.Timestamp.now(), updatedAt: firebase.firestore.Timestamp.now()}); } catch(e) {}
+    try {
+      await db.collection('orders').doc(order.id).set({...order, createdAt: firebase.firestore.Timestamp.now(), updatedAt: firebase.firestore.Timestamp.now()});
+      console.log('Order sent to Firebase:', order.orderNumber);
+    } catch(e) {
+      console.error('Firebase send error:', e);
+      showToast('Firebase Fehler: ' + (e.message || e));
+      var orders = getOrders();
+      orders.unshift(order);
+      if (orders.length > 200) orders.length = 200;
+      saveOrders(orders);
+    }
+  } else {
+    console.warn('Firebase not connected, saving locally. syncMode=' + syncMode + ' db=' + !!db);
+    var orders = getOrders();
+    orders.unshift(order);
+    if (orders.length > 200) orders.length = 200;
+    saveOrders(orders);
+    showToast('Firebase offline - lokal gespeichert');
   }
 
-  const orders = getOrders();
-  orders.unshift(order);
-  if (orders.length > 200) orders.length = 200;
-  saveOrders(orders);
-
-  // Verify save
-  var verify=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]');
-  var savedOrder=verify[0];
-  var hasMods=savedOrder&&savedOrder.items? savedOrder.items.filter(function(i){return i.modifiers&&i.modifiers.length>0;}).length : 0;
+  var hasMods = items.filter(function(i){return i.modifiers&&i.modifiers.length>0;}).length;
 
   currentOrder = [];
   if (deadlineEl) deadlineEl.value = '';
   renderOrder();
+  closeCart();
   showToast('\u2705 Bestellung '+orderNumber+' gesendet! '+items.length+' Artikel, '+hasMods+' mit Extras.'+(deadline?' (bis '+deadline+')':''));
 }
 
@@ -755,6 +833,39 @@ async function loadData() {
   renderProducts();
 }
 loadData();
+</script>
+
+<!-- ==================== PWA (Installierbar) ==================== -->
+<button id="pwaInstall" style="display:none;position:fixed;left:16px;bottom:max(16px,env(safe-area-inset-bottom));z-index:130;background:var(--accent);color:#fff;border:none;border-radius:24px;padding:13px 20px;font-size:14px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.45);cursor:pointer">⬇️ App installieren</button>
+<script>
+(function(){
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function(){ navigator.serviceWorker.register('sw.js').catch(function(){}); });
+  }
+  var deferred = null;
+  var btn = document.getElementById('pwaInstall');
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); deferred = e; if (btn) btn.style.display = 'block'; });
+  if (btn) btn.addEventListener('click', function(){
+    if (!deferred) return;
+    deferred.prompt();
+    deferred.userChoice.finally(function(){ deferred = null; btn.style.display = 'none'; });
+  });
+  window.addEventListener('appinstalled', function(){ if (btn) btn.style.display = 'none'; });
+  // iOS/iPadOS: kein beforeinstallprompt -> einmaliger Hinweis
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var standalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+  if (isIOS && !standalone && !localStorage.getItem('iosPwaHint_kasse')) {
+    var h = document.createElement('div');
+    h.style.cssText = 'position:fixed;left:12px;right:12px;bottom:max(12px,env(safe-area-inset-bottom));z-index:140;background:#1a2736;border:1px solid #2a3f55;color:#e8edf2;border-radius:14px;padding:14px 16px;font-size:14px;line-height:1.5;box-shadow:0 8px 32px rgba(0,0,0,.5);display:flex;gap:10px;align-items:center;justify-content:space-between';
+    h.innerHTML = '<span>📲 Als App installieren: <b>Teilen</b>-Symbol antippen → <b>„Zum Home-Bildschirm“</b></span>';
+    var x = document.createElement('button');
+    x.textContent = '✕';
+    x.style.cssText = 'background:none;border:none;color:#8fa3b8;font-size:20px;cursor:pointer;flex-shrink:0;padding:0 4px';
+    x.onclick = function(){ localStorage.setItem('iosPwaHint_kasse','1'); h.remove(); };
+    h.appendChild(x);
+    document.body.appendChild(h);
+  }
+})();
 </script>
 </body>
 </html>
