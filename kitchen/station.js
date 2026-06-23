@@ -18,19 +18,16 @@ var STATION = window.STATION || { id:'kochen', title:'Station', icon:'🍳', emp
 */
 var CAT_STATION = {
   pizza:'pizza',
-  salate:'salat', burger:'salat',
+  salate:'salat', burger:'salat', fingerfood:'salat', extras:'salat', getraenke:'salat',
   lasagne:'kochen', pasta:'kochen', gnocchi:'kochen', schnitzel:'kochen',
   mexikanisch:'kochen', enchiladas:'kochen', gegrilltes:'kochen',
-  pakistanisch:'kochen', fingerfood:'kochen',
-  getraenke:null, extras:null
+  pakistanisch:'kochen'
 };
 
 function nameStation(name){
   var n = String(name||'').toLowerCase();
   if (/pizza/.test(n)) return 'pizza';
-  if (/salat|burger/.test(n)) return 'salat';
-  if (/cola|fanta|sprite|wasser|getr|saft|limo|\b0[.,]\d|\b1\s?l\b/.test(n)) return null; // Getränke
-  if (/pommes|pasta|nudel|lasagne|gnocchi|schnitzel|enchilada|pakistan|grill/.test(n)) return 'kochen';
+  if (/salat|burger|pommes|cola|fanta|sprite|mezzo|eistee|wasser|sprudel|getr|saft|limo|tiramisu|apfelstrudel|nuggets|wings|onion|calamari|krokette|potato|cookie/.test(n)) return 'salat';
   return 'kochen';
 }
 
@@ -49,10 +46,8 @@ function orderItemsForStation(order, sid){
 
 /* ---- State ---- */
 var orders = {};
-var seenForStation = {};   // orderId -> true, für Ton bei neuen Bestellungen
-var soundEnabled = true;
-var audioUnlocked = false;
-var deadlineAlertsFired = {};
+var seenForStation = {};   // orderId -> true
+var firstSeenMap = {};     // orderId -> Zeitpunkt (ms), an dem diese Anzeige die Bestellung zuerst sah
 var db = null;
 var menuDesc = {};
 var menuCat = {};
@@ -115,74 +110,35 @@ function getItemCategory(item){
 function tickClock(){ document.getElementById('clock').textContent = new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',second:'2-digit'}); }
 setInterval(tickClock,1000); tickClock();
 
-/* ---- Ton ---- */
-window.toggleSound = function(){
-  soundEnabled = !soundEnabled;
-  var b = document.getElementById('soundToggle');
-  b.textContent = soundEnabled ? '🔊 Ton an' : '🔇 Ton aus';
-  b.classList.toggle('muted', !soundEnabled);
-};
-var audioCtx = null;
-function getAudioCtx(){ if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)(); return audioCtx; }
-function playAlertSound(repeat){
-  if (!soundEnabled || !audioUnlocked) return;
-  try{
-    var ctx = getAudioCtx(), reps = repeat || 3;
-    for (var r=0;r<reps;r++){ var st = ctx.currentTime + r*1.2;
-      for (var i=0;i<3;i++){ var t = st+i*.15, o = ctx.createOscillator(), g = ctx.createGain();
-        o.connect(g); g.connect(ctx.destination); o.frequency.value=1000; o.type='square';
-        g.gain.setValueAtTime(.7,t); g.gain.linearRampToValueAtTime(.001,t+.12); o.start(t); o.stop(t+.13); } }
-  }catch(e){}
-}
-function playNotificationSound(){
-  if (!soundEnabled || !audioUnlocked) return;
-  try{
-    var ctx = getAudioCtx(), D=2.4, BL=.15, G=.1, st=ctx.currentTime;
-    for (var i=0;i<D/(BL+G);i++){ var t = st+i*(BL+G), o = ctx.createOscillator(), g = ctx.createGain();
-      o.connect(g); g.connect(ctx.destination); o.frequency.value = i%2===0?880:660; o.type='square';
-      g.gain.setValueAtTime(.6,t); g.gain.linearRampToValueAtTime(.001,t+BL); o.start(t); o.stop(t+BL+.01); }
-  }catch(e){}
-}
-function unlockAudioNow(){
-  if (audioUnlocked) return;
-  try{
-    var ctx = getAudioCtx();
-    if (ctx.state === 'suspended') ctx.resume();
-    var o = ctx.createOscillator(), g = ctx.createGain();
-    o.connect(g); g.connect(ctx.destination); o.frequency.value=800; o.type='sine';
-    g.gain.setValueAtTime(.15,ctx.currentTime); g.gain.linearRampToValueAtTime(.001,ctx.currentTime+.15);
-    o.start(ctx.currentTime); o.stop(ctx.currentTime+.15); audioUnlocked = true;
-  }catch(e){}
-}
-document.addEventListener('click', unlockAudioNow);
-document.addEventListener('touchend', unlockAudioNow);
+/* ---- Kein Ton in den Stationen (nur die "Alle"-Anzeige spielt Töne) ---- */
 
-/* ---- Zeit / Deadline ---- */
-function getOrderAgeMinutes(order){ if (!order.createdAt) return 0; return Math.floor((Date.now()-new Date(order.createdAt).getTime())/60000); }
+/* ---- Zeit / Deadline ----
+   Der Timer wird am Zeitpunkt verankert, an dem DIESE Anzeige die Bestellung
+   zuerst gesehen hat. Dadurch startet jede neue Bestellung bei 0 — unabhängig
+   von einer falsch eingestellten Geräteuhr (sonst sprang der Timer z.B. auf
+   tausende Sekunden). createdAt wird nur genutzt, wenn es plausibel ist. */
+function getEffectiveStart(order){
+  var now = Date.now();
+  var fs = firstSeenMap[order.id] || now;
+  var created = order.createdAt ? new Date(order.createdAt).getTime() : NaN;
+  if (!isFinite(created)) return fs;
+  if (created > now || (fs - created) > 120000) return fs; // Uhr unzuverlässig
+  return created;
+}
+function getOrderAgeMinutes(order){ return Math.floor(Math.max(0, Date.now()-getEffectiveStart(order))/60000); }
 function formatTimeAgo(ts){
-  if (!ts) return '--:--';
-  var d = Math.floor((Date.now()-new Date(ts).getTime())/1000), m = Math.floor(d/60), h = Math.floor(m/60);
+  if (!ts) return '0 min';
+  var d = Math.floor((Date.now()-new Date(ts).getTime())/1000);
+  if (d < 0) d = 0;
+  var m = Math.floor(d/60), h = Math.floor(m/60);
   if (h>0) return h+' Std '+(m%60)+' min';
-  if (m>0) return m+' min '+(d%60)+' s';
-  return d+' s';
+  return m+' min';
 }
 function getDeadlineInfo(order){
   if (!order.deadline) return null;
   var p = order.deadline.split(':').map(Number), dl = new Date(); dl.setHours(p[0],p[1],0,0);
   var diff = Math.floor((dl - Date.now())/60000);
   return { time:order.deadline, minsLeft:diff, isDue:diff<=0 };
-}
-function checkDeadlineAlerts(){
-  Object.values(orders).forEach(function(order){
-    if (!order.deadline) return;
-    if (orderItemsForStation(order, STATION.id).length === 0) return;
-    var info = getDeadlineInfo(order); if (!info) return;
-    [[30,5],[15,7],[5,10],[0,10]].forEach(function(pair){
-      if (info.minsLeft === pair[0] && !deadlineAlertsFired[order.id+'_'+pair[0]]){
-        deadlineAlertsFired[order.id+'_'+pair[0]] = true; playAlertSound(pair[1]);
-      }
-    });
-  });
 }
 setInterval(function(){
   document.querySelectorAll('.card-timer').forEach(function(e){ var t = e.dataset.timestamp; if (t) e.textContent = '⏱ '+formatTimeAgo(t); });
@@ -195,7 +151,6 @@ setInterval(function(){
     else if (dm<=30){ el.className='deadline-banner near'; el.textContent='⏰ NOCH '+mins+' MIN — Fertig bis '+ts; }
     else { el.className='deadline-banner ok'; el.textContent='✓ Fertig bis '+ts+' (in '+mins+' min)'; }
   });
-  checkDeadlineAlerts();
 },1000);
 
 /* ---- Modifier-/Item-Rendering (wie Hauptanzeige) ---- */
@@ -256,6 +211,8 @@ function renderItemsList(items){
 function renderCard(order){
   var items = orderItemsForStation(order, STATION.id);
   var ts = order.createdAt, age = getOrderAgeMinutes(order);
+  var effIso = new Date(getEffectiveStart(order)).toISOString();
+  var addr = order.address ? String(order.address).trim() : '';
   var ageCard = age>60 ? ' age-crit' : (age>30 ? ' age-hot' : '');
   var ageTimer = age>60 ? ' age-crit' : (age>30 ? ' age-hot' : (age>15 ? ' age-warn' : ''));
 
@@ -275,8 +232,9 @@ function renderCard(order){
   return '<div class="order-card'+ageCard+'" id="card-'+order.id+'">'
     + '<div class="card-header">'
     +   '<div><div class="order-number">'+order.orderNumber+'</div><div class="order-time">'+new Date(ts).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})+' Uhr</div></div>'
-    +   '<div class="card-timer'+ageTimer+'" data-timestamp="'+ts+'">⏱ '+formatTimeAgo(ts)+'</div>'
+    +   '<div class="card-timer'+ageTimer+'" data-timestamp="'+effIso+'">⏱ '+formatTimeAgo(effIso)+'</div>'
     + '</div>'
+    + (addr ? '<div class="card-address">📍 '+addr+'</div>' : '')
     + deadlineHtml
     + '<div class="card-body"><ul class="order-items-list">'+renderItemsList(items)+'</ul></div>'
     + '<div class="card-actions"><button class="btn-station-ready" onclick="stationReady(\''+order.id+'\')">✓ جاهز</button></div>'
@@ -325,16 +283,15 @@ window.stationReady = function(orderId){
 /* ---- Firestore-Listener ---- */
 function processOrders(list){
   var next = {};
+  var now = Date.now();
   list.forEach(function(o){
     next[o.id] = o;
-    // Ton, wenn eine NEUE Bestellung Artikel für diese Station hat
-    if (!seenForStation[o.id] && (o.stationsDone||[]).indexOf(STATION.id) < 0 && orderItemsForStation(o, STATION.id).length > 0){
-      playNotificationSound();
-    }
+    if (!firstSeenMap[o.id]) firstSeenMap[o.id] = now;   // Timer-Anker
     seenForStation[o.id] = true;
   });
   // aufräumen
   Object.keys(seenForStation).forEach(function(id){ if (!next[id]) delete seenForStation[id]; });
+  Object.keys(firstSeenMap).forEach(function(id){ if (!next[id]) delete firstSeenMap[id]; });
   orders = next;
   renderAll();
 }
@@ -351,6 +308,7 @@ function startListener(){
           status: d.status || 'NEW',
           items: d.items || [],
           deadline: d.deadline || null,
+          address: d.address || null,
           stationsDone: d.stationsDone || [],
           createdAt: d.createdAt ? (d.createdAt.toDate ? d.createdAt.toDate().toISOString() : d.createdAt) : new Date().toISOString()
         });

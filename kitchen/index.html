@@ -120,6 +120,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:1
 .insgesamt .ins-total small{font-size:11px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-top:3px}
 @media(max-width:768px){.insgesamt{margin:12px}}
 .order-card.all-ready{border-color:var(--status-ready);box-shadow:0 0 0 2px rgba(46,204,113,.35),0 6px 22px rgba(46,204,113,.12)}
+.card-address{padding:9px 22px;font-size:15px;font-weight:700;color:#7fc4ec;background:rgba(52,152,219,.1);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
 @media(max-width:768px){.orders-grid{column-width:auto;column-count:1;padding:12px}.topbar{padding:10px 16px}.topbar h1{font-size:18px}.topbar-time{font-size:24px}.stat-val{font-size:22px}}
 
 /* ============ iPad / Touch-Optimierung ============ */
@@ -234,17 +235,16 @@ function getItemCategory(item) {
 
 // ---- Stations-Zuordnung (identisch zu station.js) ----
 var CAT_STATION = {
-  pizza:'pizza', salate:'salat', burger:'salat',
+  pizza:'pizza', salate:'salat', burger:'salat', fingerfood:'salat', extras:'salat', getraenke:'salat',
   lasagne:'kochen', pasta:'kochen', gnocchi:'kochen', schnitzel:'kochen',
   mexikanisch:'kochen', enchiladas:'kochen', gegrilltes:'kochen',
-  pakistanisch:'kochen', fingerfood:'kochen', getraenke:null, extras:null
+  pakistanisch:'kochen'
 };
 var STATION_META = { pizza:{icon:'🍕',label:'Pizza'}, salat:{icon:'🥗',label:'Salat/Burger'}, kochen:{icon:'🍳',label:'Küche'} };
 function nameStation(name){
   var n = String(name||'').toLowerCase();
   if (/pizza/.test(n)) return 'pizza';
-  if (/salat|burger/.test(n)) return 'salat';
-  if (/cola|fanta|sprite|wasser|getr|saft|limo|\b0[.,]\d|\b1\s?l\b/.test(n)) return null;
+  if (/salat|burger|pommes|cola|fanta|sprite|mezzo|eistee|wasser|sprudel|getr|saft|limo|tiramisu|apfelstrudel|nuggets|wings|onion|calamari|krokette|potato|cookie/.test(n)) return 'salat';
   return 'kochen';
 }
 function itemStation(item){
@@ -343,9 +343,19 @@ function cycleTimeFilter() {
   renderAllOrders();
 }
 
+// Timer-Anker: Zeitpunkt, an dem DIESE Anzeige die Bestellung zuerst sah.
+// So startet jede neue Bestellung bei 0 — unabhängig von einer falschen Geräteuhr.
+var firstSeenMap = {};
+function getEffectiveStart(order) {
+  var now = Date.now();
+  var fs = firstSeenMap[order.id] || now;
+  var created = order.createdAt ? new Date(order.createdAt).getTime() : NaN;
+  if (!isFinite(created)) return fs;
+  if (created > now || (fs - created) > 120000) return fs; // Uhr unzuverlässig
+  return created;
+}
 function getOrderAgeMinutes(order) {
-  if (!order.createdAt) return 0;
-  return Math.floor((Date.now() - new Date(order.createdAt).getTime()) / 60000);
+  return Math.floor(Math.max(0, Date.now() - getEffectiveStart(order)) / 60000);
 }
 
 var audioCtx = null;
@@ -360,6 +370,7 @@ function playAlertSound(repeat) {
   if(!soundEnabled || !audioUnlocked) return;
   try{
     var ctx = getAudioCtx();
+    if(ctx.state==='suspended') ctx.resume();
     var reps = repeat || 3;
     for(var r=0; r<reps; r++){
       var offset = r * 1.2;
@@ -380,6 +391,7 @@ function playNotificationSound() {
   if(!soundEnabled || !audioUnlocked) return;
   try{
     var ctx = getAudioCtx();
+    if(ctx.state==='suspended') ctx.resume();
     var D=4,BL=.15,G=.1,st=ctx.currentTime;
     for(var i=0;i<D/(BL+G);i++){
       var t=st+i*(BL+G);
@@ -393,12 +405,12 @@ function playNotificationSound() {
 }
 
 function formatTimeAgo(ts) {
-  if(!ts)return'--:--';
-  const d=Math.floor((Date.now()-new Date(ts).getTime())/1000);
+  if(!ts)return'0 min';
+  let d=Math.floor((Date.now()-new Date(ts).getTime())/1000);
+  if(d<0)d=0;
   const m=Math.floor(d/60),h=Math.floor(m/60);
   if(h>0)return h+' Std '+ (m%60)+' min';
-  if(m>0)return m+' min '+ (d%60)+' s';
-  return d+' s';
+  return m+' min';
 }
 
 function getDeadlineInfo(order) {
@@ -572,18 +584,21 @@ function renderOrderCard(order) {
 
   const hasDeadlineClass = order.deadline ? ' has-deadline' : '';
   const readyClass = allStationsDone(order) ? ' all-ready' : '';
+  const effIso = new Date(getEffectiveStart(order)).toISOString();
+  const addr = order.address ? String(order.address).trim() : '';
 
   return '<div class="order-card status-'+order.status+hasDeadlineClass+readyClass+'" id="card-'+order.id+'">'
     +'<div class="card-header status-'+order.status+'">'
     +'<div><div class="order-number">'+order.orderNumber+'</div><div class="order-time">'+new Date(ts).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})+' Uhr</div></div>'
     +'<span class="status-badge">'+order.status+'</span>'
     +'</div>'
+    +(addr?'<div class="card-address">📍 '+addr+'</div>':'')
     +renderStationProgress(order)
     +deadlineHtml
     +'<div class="card-body"><ul class="order-items-list">'
     +renderItemsList(items)
     +'</ul></div>'
-    +'<div class="card-timer'+ageClass+'" data-timestamp="'+ts+'">⏱ '+formatTimeAgo(ts)+'</div>'
+    +'<div class="card-timer'+ageClass+'" data-timestamp="'+effIso+'">⏱ '+formatTimeAgo(effIso)+'</div>'
     +'<div class="card-actions">'
     +'<button class="btn-ready" onclick="markReady(\''+order.id+'\')" style="flex:1;padding:14px;border:none;border-radius:10px;font-size:16px;font-weight:800;cursor:pointer;background:#2ecc71;color:#000;text-transform:uppercase;letter-spacing:.5px">✓ جاهز</button>'
     +'</div>'
@@ -612,12 +627,15 @@ function renderAllOrders() {
 function processOrdersData(ordersList) {
   var prevIds = new Set(Object.keys(orders));
   var newOrders={};
+  var now=Date.now();
   ordersList.forEach(function(order){
     newOrders[order.id]=order;
+    if(!firstSeenMap[order.id]) firstSeenMap[order.id]=now;   // Timer-Anker
     if(order.status==='NEW' && !prevIds.has(order.id)){
       playNotificationSound();
     }
   });
+  Object.keys(firstSeenMap).forEach(function(id){ if(!newOrders[id]) delete firstSeenMap[id]; });
   knownOrderIds=new Set(Object.keys(newOrders));
   orders=newOrders;
   renderAllOrders();
@@ -638,6 +656,7 @@ function startFirebaseListener() {
             status: data.status || 'NEW',
             items: data.items || [],
             deadline: data.deadline || null,
+            address: data.address || null,
             stationsDone: data.stationsDone || [],
             createdAt: data.createdAt ? (data.createdAt.toDate ? data.createdAt.toDate().toISOString() : data.createdAt) : new Date().toISOString(),
             updatedAt: data.updatedAt ? (data.updatedAt.toDate ? data.updatedAt.toDate().toISOString() : data.updatedAt) : new Date().toISOString(),
@@ -681,6 +700,9 @@ function unlockAudioNow() {
 }
 document.addEventListener('click', unlockAudioNow);
 document.addEventListener('touchend', unlockAudioNow);
+document.addEventListener('keydown', unlockAudioNow);
+// AudioContext zuverlässig reaktivieren, wenn der Tab wieder sichtbar wird
+document.addEventListener('visibilitychange', function(){ if(!document.hidden && audioCtx && audioCtx.state==='suspended') audioCtx.resume(); });
 
 if (db) {
   if (!startFirebaseListener()) {

@@ -95,6 +95,12 @@ body{font-family:var(--font);background:var(--bg-primary);color:var(--text-prima
 .send-btn:disabled{background:var(--border);color:var(--text-muted);cursor:not-allowed;transform:none;box-shadow:none}
 #deadlineTime{color-scheme:dark;cursor:pointer}
 #deadlineTime::-webkit-calendar-picker-indicator{filter:invert(1);cursor:pointer}
+.city-chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+.city-chips::-webkit-scrollbar{height:5px}
+.city-chips::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.city-chip{flex:0 0 auto;background:var(--bg-card);border:1px solid var(--border);color:var(--text-secondary);font-size:12px;font-weight:600;padding:6px 11px;border-radius:16px;cursor:pointer;white-space:nowrap;transition:var(--transition)}
+.city-chip:hover{border-color:var(--accent);color:var(--accent)}
+.city-chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:100;animation:fadeIn .15s ease}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .modal{background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius);padding:24px;width:90%;max-width:520px;max-height:80vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.5)}
@@ -201,6 +207,15 @@ button,.cat-btn,.modifier-chip,.size-btn,.product-card,.qty-btn,.edit-btn,.remov
     </div>
     <div class="order-footer">
       <div class="order-count">🛒 <strong id="itemCount">0</strong> Positionen</div>
+      <div style="margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <label style="font-size:12px;color:var(--text-secondary);white-space:nowrap">📍 Ort (optional):</label>
+          <input type="text" id="orderAddress" list="cityList" autocomplete="off" placeholder="Adresse / Ort…" style="flex:1;padding:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);color:#fff;font-size:15px;outline:none">
+          <button onclick="clearAddress()" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:14px;padding:4px" title="Löschen">✕</button>
+        </div>
+        <datalist id="cityList"></datalist>
+        <div class="city-chips" id="cityChips"></div>
+      </div>
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
         <label style="font-size:12px;color:var(--text-secondary);white-space:nowrap">⏰ Fertig bis:</label>
         <input type="time" id="deadlineTime" style="flex:1;padding:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);color:#fff;font-size:16px;font-weight:600;outline:none;cursor:pointer">
@@ -230,6 +245,29 @@ function getNextOrderNumber() {
   let num = parseInt(localStorage.getItem(COUNTER_KEY) || '1000'); num++;
   localStorage.setItem(COUNTER_KEY, num.toString());
   return 'TK-' + num;
+}
+
+// ==================== ORT / ADRESSE ====================
+const CITIES = ['Miltenberg','Breitendiel','Weilbach','Weckbach','Amorbach','Walldürn','Kirchzell','Schneeberg','Bürgstadt','Kleinheubach','Großheubach','Röllbach','Klingenberg','Freudenberg','Collenberg','Stadtprozelten','Dorfprozelten','Trennfurt','Kirchfurt','Elsenfeld','Erlenbach'];
+function initCities() {
+  var dl = document.getElementById('cityList');
+  if (dl) dl.innerHTML = CITIES.map(function(c){ return '<option value="'+c+'">'; }).join('');
+  var box = document.getElementById('cityChips');
+  if (box) box.innerHTML = CITIES.map(function(c){ return '<button type="button" class="city-chip" onclick="selectCity(this,\''+c.replace(/'/g,"\\'")+'\')">'+c+'</button>'; }).join('');
+}
+function selectCity(btn, name) {
+  var inp = document.getElementById('orderAddress');
+  if (!inp) return;
+  var already = btn.classList.contains('active');
+  document.querySelectorAll('#cityChips .city-chip.active').forEach(function(b){ b.classList.remove('active'); });
+  if (already) { inp.value = ''; }
+  else { inp.value = name; btn.classList.add('active'); }
+  inp.focus();
+}
+function clearAddress() {
+  var inp = document.getElementById('orderAddress');
+  if (inp) inp.value = '';
+  document.querySelectorAll('#cityChips .city-chip.active').forEach(function(b){ b.classList.remove('active'); });
 }
 
 // ==================== STATE ====================
@@ -675,12 +713,14 @@ async function sendOrder() {
   const now = new Date().toISOString();
   const deadlineEl = document.getElementById('deadlineTime');
   const deadline = deadlineEl && deadlineEl.value ? deadlineEl.value : null;
+  const addressEl = document.getElementById('orderAddress');
+  const address = addressEl && addressEl.value.trim() ? addressEl.value.trim() : null;
   const items = currentOrder.map(item => ({
     productId: item.productId, productNumber: item.productNumber, name: item.name,
     quantity: item.quantity, size: item.size || null, modifiers: item.modifiers || [], notes: item.notes || '',
     comboId: item.comboId || null, comboName: item.comboName || ''
   }));
-  const order = { id: 'order-' + Date.now(), orderNumber: orderNumber, status: 'NEW', items: items, deadline: deadline, createdAt: now, updatedAt: now, completedAt: null };
+  const order = { id: 'order-' + Date.now(), orderNumber: orderNumber, status: 'NEW', items: items, deadline: deadline, address: address, createdAt: now, updatedAt: now, completedAt: null };
 
   if (syncMode === 'firebase' && db) {
     try {
@@ -707,6 +747,7 @@ async function sendOrder() {
 
   currentOrder = [];
   if (deadlineEl) deadlineEl.value = '';
+  clearAddress();
   renderOrder();
   closeCart();
   showToast('\u2705 Bestellung '+orderNumber+' gesendet! '+items.length+' Artikel, '+hasMods+' mit Extras.'+(deadline?' (bis '+deadline+')':''));
@@ -832,6 +873,7 @@ async function loadData() {
   renderCategories();
   renderProducts();
 }
+initCities();
 loadData();
 </script>
 
